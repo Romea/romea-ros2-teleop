@@ -1,0 +1,16 @@
+<launch>
+  <arg name="joy_type" default="xbox" />
+  <arg name="linear_speed_scale"/>
+  <arg name="linear_speed_turbo_scale"/>
+  <arg name="front_steering_angle_scale"/>
+  <arg name="rear_steering_angle_scale"/>
+
+  <node pkg="romea_teleop" name="teleop_node" type="four_wheel_steering_teleop_node" output="screen">
+     <rosparam command="load" file="$(find romea_teleop)/config/$(arg joy_config)_four_wheel_steering.yaml" />
+     <param name="linear_speed_scale" value="$(arg linear_speed_scale)"/>
+     <param name="linear_speed_turbo_scale" value="$(arg linear_speed_turbo_scale)"/>
+     <param name="front_steering_angle_scale" value="$(arg front_steering_angle_scale)"/>
+     <param name="rear_steering_angle_scale" value="$(arg rear_steering_angle_scale)"/>
+  </node>
+
+</launch>

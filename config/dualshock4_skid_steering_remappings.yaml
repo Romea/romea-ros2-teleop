@@ -1,0 +1,10 @@
+/**:
+  ros__parameters:
+    joystick:
+      remapping:
+        axes:
+          linear_speed: Vertical_Left_Stick
+          angular_speed: Horizontal_Right_Stick
+        buttons:
+          slow_mode: L1
+          turbo_mode: R1
