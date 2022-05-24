@@ -10,7 +10,7 @@
           slow_mode: L1
           turbo_mode: R1
     cmd_output:
-      type: romea_mobile_base_msgs::msg::SkidSteeringCommand
+      type: romea_mobile_base_msgs/SkidSteeringCommand
       priority: 100 # [0 255]
     cmd_range:
       maximal_linear_speed:

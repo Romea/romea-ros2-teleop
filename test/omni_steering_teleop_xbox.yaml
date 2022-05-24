@@ -11,7 +11,7 @@
           slow_mode: LB
           turbo_mode: RB
     cmd_output:
-      type: geometry_msgs::msg::Twist
+      type: geometry_msgs/Twist
       priority: 100 # [0 255]
     cmd_range:
       maximal_linear_speed:

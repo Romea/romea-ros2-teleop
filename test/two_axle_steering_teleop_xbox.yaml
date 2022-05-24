@@ -12,7 +12,7 @@
           slow_mode: LB
           turbo_mode: RB
     cmd_output:
-      type: four_wheel_steering_msgs::msg::FourWheelSteering
+      type: four_wheel_steering_msgs/FourWheelSteering
       priority: 100 # [0 255]
     cmd_range:
       maximal_linear_speed:

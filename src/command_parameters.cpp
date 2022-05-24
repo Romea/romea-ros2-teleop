@@ -137,6 +137,9 @@ void declare_command_output_message_type(std::shared_ptr<rclcpp::Node> node)
 //-----------------------------------------------------------------------------
 std::string get_command_output_message_type(std::shared_ptr<rclcpp::Node> node)
 {
+
+//  Message type is not of the form package/type and cannot be processed
+
   return romea::get_parameter<std::string>(node,COMMAND_MESSAGE_TYPE_PARAM_NAME);
 }
 

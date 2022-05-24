@@ -12,7 +12,7 @@
          slow_mode: L1
          turbo_mode: R1
     cmd_output:
-      type: romea_mobile_base_msgs::msg::TwoAxleSteeringCommand
+      type: romea_mobile_base_msgs/TwoAxleSteeringCommand
       priority: 100 # [0 255]
     cmd_range:
       maximal_linear_speed:
