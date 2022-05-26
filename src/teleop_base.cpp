@@ -5,6 +5,9 @@
 #include <romea_core_mobile_base/kinematic/axle_steering/OneAxleSteeringCommand.hpp>
 #include <romea_core_mobile_base/kinematic/axle_steering/TwoAxleSteeringCommand.hpp>
 
+#include <romea_cmd_mux_utils/cmd_mux_unsubscription_client.hpp>
+#include <romea_cmd_mux_utils/cmd_mux_unsubscription_client.hpp>
+
 namespace romea {
 
 //-----------------------------------------------------------------------------
@@ -12,7 +15,8 @@ template <class CommandType>
 TeleopBase<CommandType>::TeleopBase(const rclcpp::NodeOptions &options):
   node_(std::make_shared<rclcpp::Node>("teleop_node", options)),
   joy_(nullptr),
-  cmd_pub_(nullptr)
+  cmd_pub_(nullptr),
+  cmd_mux_client_(node_)
 {
 }
 
@@ -35,17 +39,27 @@ void TeleopBase<CommandType>::init_joystick_()
   auto joystick_type = get_joystick_type(node_);
   auto joystick_remappings = get_joystick_remappings_();
   joy_ = std::make_unique<Joystick>(node_,joystick_type,joystick_remappings,true);
-  joy_->registerOnReceivedMsgCallback(std::bind(&TeleopBase::joystick_callback_, this, std::placeholders::_1));
+
+  auto callback = std::bind(&TeleopBase::joystick_callback_, this, std::placeholders::_1);
+  joy_->registerOnReceivedMsgCallback(std::move(callback));
 }
 
 //-----------------------------------------------------------------------------
 template <class CommandType>
 void TeleopBase<CommandType>::init_command_publisher_()
 {
-  auto msg_type  = get_command_output_message_type(node_);
-  cmd_pub_ = std::make_unique<CmdPubType>(node_,msg_type);
   get_command_ranges_();
+  int priority = get_command_output_priority(node_);
+  std::string msg_type  = get_command_output_message_type(node_);
+
+  cmd_pub_ = std::make_unique<CmdPubType>(node_,msg_type);
+
+  if(priority!=-1)
+  {
+    cmd_mux_client_.subscribe(cmd_pub_->get_topic_name(),priority,0.05);
+  }
 }
+
 
 //-----------------------------------------------------------------------------
 template <class CommandType>

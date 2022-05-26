@@ -146,11 +146,11 @@ std::string get_command_output_message_type(std::shared_ptr<rclcpp::Node> node)
 //-----------------------------------------------------------------------------
 void declare_command_output_priority(std::shared_ptr<rclcpp::Node> node)
 {
-  romea::declare_parameter_with_default<int>(node,COMMAND_PRIORITY_PARAM_NAME,0);
+  romea::declare_parameter_with_default<int>(node,COMMAND_PRIORITY_PARAM_NAME,-1);
 }
 
 //-----------------------------------------------------------------------------
-double get_command_output_priority(std::shared_ptr<rclcpp::Node> node)
+int get_command_output_priority(std::shared_ptr<rclcpp::Node> node)
 {
   return romea::get_parameter<int>(node,COMMAND_PRIORITY_PARAM_NAME);
 }

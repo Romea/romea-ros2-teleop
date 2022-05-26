@@ -10,8 +10,6 @@
 namespace romea
 {
 
-
-
    void declare_forward_speed_axe_remap(std::shared_ptr<rclcpp::Node> node);
 
    void declare_backward_speed_axe_remap(std::shared_ptr<rclcpp::Node> node);

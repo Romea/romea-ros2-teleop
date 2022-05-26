@@ -8,7 +8,7 @@ This package contains teleop nodes for skid, ackermann, omni and four wheel stee
 
 - cmd_mux_autoconnect(bool, default true)
 
-  This option must be true when romea cmd_mux is used to multiplex vehicle command messages. During initialisation step, the teleop node will automatically register cmd_vel topic to the command multiplexer with a priority defined by user (see below). If another topic is already register with the same priority, registration to cmd_mux is rejected and initialisation failed.
+  This option must be true when romea cmd_mux is used to multiplex vehicle command messages. During initialisation step, the teleop node will automatically register cmd_vel topic to the command multiplexer with a priority defined by user (see below). If another topic is already register with the same priority, unsubscription to cmd_mux is rejected and initialisation failed.
 
 - priority(int, default 127);
 

@@ -10,8 +10,8 @@
 #include "romea_teleop/joystick_parameters.hpp"
 #include "visibility_control.h"
 
-#include <romea_cmd_mux_utils/cmd_mux_client.hpp>
 #include <romea_mobile_base_utils/control/command_publisher.hpp>
+#include <romea_cmd_mux_utils/cmd_mux_interface.hpp>
 #include <romea_joy/joystick.hpp>
 
 namespace romea
@@ -46,7 +46,6 @@ protected:
 
   void init_joystick_();
 
-
   virtual void joystick_callback_(const Joystick & joy)=0;
 
   virtual void declare_command_ranges_() =0;
@@ -62,7 +61,7 @@ protected :
   rclcpp::Node::SharedPtr node_;
   std::unique_ptr<Joystick> joy_;
   std::unique_ptr<CmdPubType> cmd_pub_;
-  std::unique_ptr<CmdMuxClient> cmd_mux_client_;
+  CmdMuxInterface cmd_mux_client_;
 
 
 };

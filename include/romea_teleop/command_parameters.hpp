@@ -47,7 +47,7 @@ namespace romea
 
    void declare_command_output_priority(std::shared_ptr<rclcpp::Node> node);
 
-   double get_command_output_priority(std::shared_ptr<rclcpp::Node> node);
+   int get_command_output_priority(std::shared_ptr<rclcpp::Node> node);
 
 
 }
