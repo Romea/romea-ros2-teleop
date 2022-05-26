@@ -12,7 +12,7 @@
           turbo_mode: R1
     cmd_output:
       type: romea_mobile_base_msgs/OmniSteeringCommand
-      priority: 100 # [0 255]
+#      priority: 100 # [0 255] if not declared no subscription to cmd_mux is done
     cmd_range:
       maximal_linear_speed:
         slow_mode: 1.0

@@ -13,7 +13,7 @@
           turbo_mode: RB
     cmd_output:
       type: four_wheel_steering_msgs/FourWheelSteering
-      priority: 100 # [0 255]
+#      priority: 100 # [0 255] if not declared no subscription to cmd_mux is done
     cmd_range:
       maximal_linear_speed:
         slow_mode: 1.0
