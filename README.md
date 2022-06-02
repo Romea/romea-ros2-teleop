@@ -1,239 +1,278 @@
 # 1 Overview #
 
-This package contains teleop nodes for skid, ackermann, omni and four wheel steering robots. They translate data coming from joystick message into command message supported by vehicle controllers.
+This package contains teleop nodes for skid, ackermann (one axle), omni and four wheel (two axles) steering robots. They translate data coming from joystick message into command messages supported by vehicle controllers. These nodes can interact with romea cmd_mux_node (see romea_cmd_mux package) in order to register/unregister automatically teleop output topic.
 
 # 2 Nodes #
 
-### 2.1 Common parameters ###
 
-- cmd_mux_autoconnect(bool, default true)
+### 2.1 skid_steering_teleop_node ###
 
-  This option must be true when romea cmd_mux is used to multiplex vehicle command messages. During initialisation step, the teleop node will automatically register cmd_vel topic to the command multiplexer with a priority defined by user (see below). If another topic is already register with the same priority, unsubscription to cmd_mux is rejected and initialisation failed.
+### 2.1.1 Subscribed Topics ###
 
-- priority(int, default 127);
-
-  priority of cmd_vel topic from 0 to 255. The higher the more priority it has over the others topic register to command mutiplexer. This value not need to be set if cmd_mux_autoconnect is set to false.
-
-
-### 2.2 skid_steering_teleop_node ###
-
-### 2.2.1 Subscribed Topics ###
-
-- joy : (sensor_msgs::Joy)
+- joy : (sensor_msgs/Joy)
 
   Joystick messages to be translated to velocity commands.  
 
+### 2.1.2 Published Topics ###
+
+- cmd_vel (geometry_msgs/Twist)
+
+  Ros velocity messages arising from joystick commands. Available if parameter cmd_output.type is equal to geometry_msgs/Twist.
+
+- cmd_skid_steering (romea_mobile_base_msgs/SkidSteeringCommand)
+
+  Romea skid steering command messages arising from joystick commands. Available if parameter cmd_output.type is equal to romea_mobile_base_msgs/SkidSteeringCommand.
+
+### 2.1.3 Parameters ###
+
+- joystick.type (string, defaut none)
+
+    Type of the joystick (xbox,dualshock4...), see available supported joysticks in romea_joy package
+
+- jostick.remapping.axes.linear_speed (string, default node)
+
+    Id of the stick used to control linear_speed, see  example configuration files 
+
+- jostick.remapping.axes.angular_speed (string, default none)
+
+    Id of the stick used to control angular_speed, see  example configuration files 
+
+- joystick.remapping.buttons.slow_mode (string, default none)
+
+    Id of the button used to slow motion mode,  see  example configuration files 
+
+- joystick.remapping.buttons.turbo_mode (string, default none) 
+
+    Id of the button used to turbo motion mode,  see  example configuration files 
+
+- cmd_output.type (string, default none)
+
+  Type of messages published by teleop node : geometry_msgs/Twist or   romea_mobile_base_msgs/SkidSteeringCommand
+
+- cmd_output.priority(int, default -1)
+
+  Priority of messages from 0 to 255. If this parameters is defined by user, the teleop will call automatically service cmd_mux/subscribe to register output topic (cmd_vel or cmd_skid_steering) to cmd_mux node ( see romea_cmd_mux package). 
+
+- cmd_range.scale.maximal_linear_speed.slow_mode (double, default none)
+
+    Output maximal linear speed when slow mode is activated   
+
+- cmd_range.scale.maximal_linear_speed.turbo_mode (double, default none)
+
+    Output maximal linear speed when turbo mode is activated 
+
+- cmd_range.scale.maximal_angular_speed.slow_mode (double, default none)
+
+    Output maximal angular speed  when slow motion mode is activated   
+
+- cmd_range.scale.maximal_angular_speed_.turbo_mode (double, default none)
+
+    Output maximal angular speed  when turbo motion mode is activated      
+
+
+# 2.2 omni_steering_teleop_node #
+
+### 2.2.1 Subscribed Topics ###
+
+  - joy : (sensor_msgs/Joy)
+
+    Joystick messages to be translated to velocity commands.  
+
 ### 2.2.2 Published Topics ###
 
-- cmd_vel (geometry_msgs::Twist)    
+  - cmd_vel (geometry_msgs/Twist)
 
-  Command velocity messages arising from Joystick commands.
+    Ros velocity messages arising from joystick commands. Available if parameter cmd_output.type is equal to geometry_msgs/Twist.
+    
+- cmd_omni_steering (romea_mobile_base_msgs/OmniSteeringCommand)
+
+  Romea omni steering command messages arising from joystick commands. Available if parameter cmd_output.type is equal to romea_mobile_base_msgs/OmniSteeringCommand.
+
 
 ### 2.2.3 Parameters ###
 
-  - linear_axis_id (int, defaut none)
+- joystick.type (string, defaut none)
 
-    Id of the stick used to control linear speed
+     Type of the joystick (xbox,dualshock4...), see available supported joysticks in romea_joy package
 
-  - angular_axis_id (int, default none)
+- jostick.remapping.axes.linear_speed (string, default node)
 
-    Id of the stick used to control angular speed
+     Id of the stick used to control linear_speed, see  example configuration files 
 
-  - enable_button_id (int, default none)
+- jostick.remapping.axes.lateral_speed (string, default node)
 
-    Id of the deadman button used to activate slow motion mode
+     Id of the stick used to control lateral_speed, see  example configuration files 
 
-  - linear_speed_scale (double, default none)
+- jostick.remapping.axes.angular_speed (string, default none)
 
-    Scale of linear speed when slow motion mode is activated   
+     Id of the stick used to control angular_speed, see  example configuration files 
 
-  - angular_speed_scale (double, default none)
+- joystick.remapping.buttons.slow_mode (string, default none)
 
-    Scale of angular speed when slow motion mode is activated    
+     Id of the button used to slow motion mode,  see  example configuration files 
 
-  - enable_turbo_button_id (int, default none)
+- joystick.remapping.buttons.turbo_mode (string, default none) 
 
-    Id of the deadman button used to activate turbo motion mode
+     Id of the button used to turbo motion mode,  see  example configuration files 
 
-  - linear_speed_turbo_scale (double, default none)
+- cmd_output.type (string, default none)
 
-    Scale of linear speed when turbo motion mode is activated   
+     Type of messages published by teleop node : geometry_msgs/Twist or   romea_mobile_base_msgs/OmniSteeringCommand
 
-  - angular_speed_turbo_scale (double, default none)
+- cmd_output.priority(int, default -1)
 
-    Scale of angular speed when turbo motion mode is activated    
+     Priority of messages from 0 to 255. If this parameters is defined by user, the teleop will call automatically service cmd_mux/subscribe to register output topic (cmd_vel or cmd_omni_steering) to cmd_mux node ( see romea_cmd_mux package). 
 
-  - deadzone (double, default 0.05)
+- cmd_range.scale.maximal_linear_speed.slow_mode (double, default none)
 
-    Dead zone value of sticks
+     Output maximal linear speed when slow mode is activated   
+
+- cmd_range.scale.maximal_linear_speed.turbo_mode (double, default none)
+
+     Output maximal linear speed when turbo mode is activated 
+
+- cmd_range.scale.maximal_lateral_speed.slow_mode (double, default none)
+
+     Output maximal lateral speed when slow mode is activated   
+
+- cmd_range.scale.maximal_lateral_speed.turbo_mode (double, default none)
+
+     Output maximal linear speed when turbo mode is activated 
+
+- cmd_range.scale.maximal_angular_speed.slow_mode (double, default none)
+
+     Output maximal angular speed  when slow motion mode is activated   
+
+- cmd_range.scale.maximal_angular_speed_.turbo_mode (double, default none)
+
+     Output maximal angular speed  when turbo motion mode is activated      
 
 
-# 2.3 omni_steering_teleop_node #
+# 2.3 one_axle_teleop_node #
 
 ### 2.3.1 Subscribed Topics ###
 
-  - joy : (sensor_msgs::Joy)
+  - joy : (sensor_msgs/Joy)
 
     Joystick messages to be translated to velocity commands.  
 
 ### 2.3.2 Published Topics ###
 
-  - cmd_vel (geometry_msgs::Twist)    
+- cmd_vel (geometry_msgs/Twist)    
 
-    Command velocity messages arising from Joystick commands.
+    Ros velocity messages arising from Joystick commands. To ensure compatibility with ackermann controller from ros_controllers package geometry_msgs::Twist msg is used to command instead of an ackermann msg. Linear speed is set into twist.linear.x parameter and steering angle is set into twist.angular.z parameter (yes it is weird) .  Available if parameter cmd_output.type is equal to (geometry_msgs/Twist). 
 
+- cmd_omni_steering (romea_mobile_base_msgs/AxleSteeringCommand)
 
-### 2.3.3 Parameters ###
+  Romea omni steering command messages arising from joystick commands. Available if parameter cmd_output.type is equal to romea_mobile_base_msgs/OneAxleSteeringCommand.
 
-  - linear_axis_id (int, defaut none)
+### 2.4.3 Parameters ###
 
-      Id of the stick used to control linear speed
+  - joystick.type (string, defaut none)
 
-  - lateral_axis_id (int, defaut none)
+    Type of the joystick (xbox,dualshock4...), see available supported joysticks in romea_joy package
 
-      Id of the stick used to control lateral speed
+- jostick.remapping.axes.linear_speed (string, default node)
 
-  - angular_axis_id (int, default none)
+  Id of the stick used to control linear_speed, see  example configuration files 
 
-      Id of the stick used to control angular speed
+- jostick.remapping.axes.stering_angle (string, default node)
 
-  - enable_button_id (int, default none)
+  Id of the stick used to control steering_angle, see  example configuration files 
 
-      Id of the deadman button used to activate slow motion mode
+- joystick.remapping.buttons.slow_mode (string, default none)
 
-  - linear_speed_scale (double, default none)
+  Id of the button used to slow motion mode,  see  example configuration files 
 
-      Scale of linear speed when slow motion mode is activated   
+- joystick.remapping.buttons.turbo_mode (string, default none) 
 
-  - lateral_speed_scale (double, default none)
+  Id of the button used to turbo motion mode,  see  example configuration files 
 
-      Scale of lateral speed when slow motion mode is activated   
+- cmd_output.type (string, default none)
 
-  - angular_speed_scale (double, default none)
+  Type of messages published by teleop node : geometry_msgs/Twist or   romea_mobile_base_msgs/OneAxleSteeringCommand
 
-      Scale of angular speed when slow motion mode is activated    
+- cmd_output.priority(int, default -1)
 
-  - enable_turbo_button_id (int, default none)
+  Priority of messages from 0 to 255. If this parameters is defined by user, the teleop will call automatically service cmd_mux/subscribe to register output topic (cmd_vel or cmd_one_axle_steering) to cmd_mux node ( see romea_cmd_mux package). 
 
-      Id of the deadman button used to activate turbo motion mode
+- cmd_range.scale.maximal_linear_speed.slow_mode (double, default none)
 
-  - linear_speed_turbo_scale (double, default none)
+  Output maximal linear speed when slow mode is activated   
 
-      Scale of linear speed when turbo motion mode is activated   
+- cmd_range.scale.maximal_linear_speed.turbo_mode (double, default none)
 
-  - lateral_speed_scale (double, default none)
+  Output maximal linear speed when turbo mode is activated 
 
-      Scale of lateral speed when turbo motion mode is activated   
+- cmd_range.scale.maximal_steering_angle (double, default none)
 
-  - angular_speed_turbo_scale (double, default none)
+  Output maximal steering angle          
 
-      Scale of angular speed when turbo motion mode is activated    
-
-  - deadzone (double, default 0.05)
-
-    Dead zone value of sticks
-
-
-# 2.4 ackerman_steering_teleop_node #
+# 2.4 two_axle_steering_teleop_node #
 
 ### 2.4.1 Subscribed Topics ###
 
-  - joy : (sensor_msgs::Joy)
+  - joy : (sensor_msgs/Joy)
 
     Joystick messages to be translated to velocity commands.  
 
 ### 2.4.2 Published Topics ###
 
-  - cmd_vel (geometry_msgs::Twist)    
+  - cmd_4ws (four_wheel_steering_msgs/FourWheelSteering)
 
-    Command velocity messages arising from Joystick commands. To ensure compatibility with ackermann controller from ros_controllers package geometry_msgs::Twist msg is used to command instead of an ackermann msg. Linear speed is set into twist.linear.x parameter and steering angle is set into twist.angular.z parameter (yes it is weird)  
+    Ros velocity messages arising from joystick commands. Available if parameter cmd_output.type is equal to four_wheel_steering_msgs/FourWheelSteering.
 
-### 2.4.3 Parameters ###
+- cmd_two_axle_steering (romea_mobile_base_msgs/TwoAxleSteeringCommand)
 
-  - linear_axis_id (int, defaut none)
-
-    Id of the stick used to control linear speed
-
-  - steering_axis_id(int, defaut none)
-
-    Id of the stick used to control steerig angle
-
-  - steering_angle_scale (double, default none)
-
-    Scale  of steering angle
-
-  - enable_button_id (int, default none)
-
-    Id of the deadman button used to activate slow motion mode
-
-  - linear_speed_scale (double, default none)
-
-    Scale of linear speed when slow motion mode is activated   
-
-  - enable_turbo_button_id (int, default none)
-
-    Id of the deadman button used to activate turbo motion mode
-
-  - linear_speed_turbo_scale (double, default none)
-
-    Scale of linear speed when turbo motion mode is activated   
-
-  - deadzone (double, default 0.05)
-
-    Dead zone value of sticks
-
-# 2.5 four_wheel_steering_teleop_node #
-
-### 2.5.1 Subscribed Topics ###
-
-  - joy : (sensor_msgs::Joy)
-
-    Joystick messages to be translated to velocity commands.  
-
-### 2.5.2 Published Topics ###
-
-    - cmd_four_wheel_steering (four_wheel_steering_msgs::FourWheelSteering)    
-
-      Four wheel steering command messages arising from Joystick commands.
+  Romea two axle steering command messages arising from joystick commands. Available if parameter cmd_output.type is equal to romea_mobile_base_msgs/TwoAxleSteeringCommand.
 
 ### 2.4.3 Parameters ###
 
-    - linear_axis_id (int, defaut none)
+- joystick.type (string, defaut none)
 
-      Id of the stick used to control linear speed
+  Type of the joystick (xbox,dualshock4...), see available supported joysticks in romea_joy package
 
-    - front_steering_axis_id(int, defaut none)
+- jostick.remapping.axes.linear_speed (string, default node)
 
-      Id of the stick used to control front steerig angle
+  Id of the stick used to control linear_speed, see  example configuration files 
 
-    - front_steering_angle_scale (double, default none)
+- jostick.remapping.axes.front_stering_angle (string, default node)
 
-      Scale  of front steering angle
+  Id of the stick used to control front_steering_angle, see  example configuration files 
 
-    - rear_steering_axis_id(int, defaut none)
+- jostick.remapping.axes.rear_stering_angle (string, default node)
 
-      Id of the stick used to control rear steerig angle
+  Id of the stick used to control rear_steering_angle, see  example configuration files 
 
-    - rear_steering_angle_scale (double, default none)
+- joystick.remapping.buttons.slow_mode (string, default none)
 
-      Scale  of rear steering angle
+  Id of the button used to slow motion mode,  see  example configuration files 
 
-    - enable_button_id (int, default none)
+- joystick.remapping.buttons.turbo_mode (string, default none) 
 
-      Id of the deadman button used to activate slow motion mode
+  Id of the button used to turbo motion mode,  see  example configuration files 
 
-    - linear_speed_scale (double, default none)
+- cmd_output.type (string, default none)
 
-      Scale of linear speed when slow motion mode is activated   
+  Type of messages published by teleop node : four_wheel_steering_msgs/FourWheelSteering or   romea_mobile_base_msgs/TwoAxleSteeringCommand
 
-    - enable_turbo_button_id (int, default none)
+- cmd_output.priority(int, default -1)
 
-      Id of the deadman button used to activate turbo motion mode
+  Priority of messages from 0 to 255. If this parameters is defined by user, the teleop will call automatically service cmd_mux/subscribe to register output topic (cmd_vel or cmd_one_axle_steering) to cmd_mux node ( see romea_cmd_mux package). 
 
-    - linear_speed_turbo_scale (double, default none)
+- cmd_range.scale.maximal_linear_speed.slow_mode (double, default none)
 
-      Scale of linear speed when turbo motion mode is activated   
+  Output maximal linear speed when slow mode is activated   
 
-    - deadzone (double, default 0.05)
+- cmd_range.scale.maximal_linear_speed.turbo_mode (double, default none)
 
-      Dead zone value of sticks
+  Output maximal linear speed when turbo mode is activated 
+
+- cmd_range.scale.maximal_front_steering_angle (double, default none)
+
+  Output maximal front steering angle          
+
+- cmd_range.scale.maximal_front_steering_angle (double, default none)
+
+  Output maximal front steering angle 
+
