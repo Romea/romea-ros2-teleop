@@ -44,8 +44,13 @@ def launch_setup(context, *args, **kwargs):
         base_description_ros_params = base_description_node["ros__parameters"]
         base_info = base_description_ros_params["base_info"]
 
+
     if "wheels_speed_control" in base_info:
-        track = base_info["geometry"]["wheels_distance"]
+        assert (
+            base_info["geometry"]["front_axle"]["wheels_distance"]
+            == base_info["geometry"]["rear_axle"]["wheels_distance"]
+        )
+        track = base_info["geometry"]["front_axle"]["wheels_distance"]
         speed_control_info = base_info["wheels_speed_control"]
 
     if "tracks_speed_control" in base_info:
@@ -71,7 +76,7 @@ def launch_setup(context, *args, **kwargs):
             {"cmd_range.maximal_angular_speed.slow_mode": 2.0 / track},
             {"cmd_range.maximal_angular_speed.turbo_mode": maximal_angular_speed},
         ],
-        remappings=[(output_topic, "~/" + output_topic)],
+        remappings=[(output_topic, "~/"+output_topic)],
         output="screen",
     )
 
