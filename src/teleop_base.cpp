@@ -52,7 +52,8 @@ void TeleopBase<CommandType>::init_command_publisher_()
   int priority = get_command_output_priority(node_);
   std::string msg_type  = get_command_output_message_type(node_);
 
-  cmd_pub_ = std::make_unique<CmdPubType>(node_,msg_type);
+  cmd_pub_ = make_command_publisher<CommandType>(node_,msg_type);
+  cmd_pub_->activate();
 
   if(priority!=-1)
   {

@@ -5,10 +5,10 @@
 #include "test_helper.h"
 #include "testable_teleop.hpp"
 #include "romea_teleop/one_axle_steering_teleop.hpp"
-#include <romea_mobile_base_utils/control/command_listener.hpp>
+#include <romea_common_utils/listeners/data_listener.hpp>
 
 using TestableOneAxleSteeringTeleop = TestableTeleop<romea::OneAxleSteeringTeleop>;
-using OneAxleSteeringCommandListener = romea::CommandListener<romea::OneAxleSteeringCommand>;
+using OneAxleSteeringCommandListener = romea::DataListenerBase<romea::OneAxleSteeringCommand>;
 
 class MessageJoystickPublisher
 {
@@ -69,6 +69,13 @@ public :
     rclcpp::shutdown();
   }
 
+  template<typename MgsType>
+  void make_listener(const std::string & topic_name)
+  {
+    cmd_sub = romea::make_data_listener<romea::OneAxleSteeringCommand,MgsType>(
+          teleop->get_node(),topic_name,romea::best_effort(1));
+  }
+
   void init(const std::string & joystick_type)
   {
     rclcpp::NodeOptions no;
@@ -83,8 +90,16 @@ public :
     joy_pub = std::make_unique<MessageJoystickPublisher>(
           teleop->get_node(),teleop->get_mapping());
 
-    cmd_sub = std::make_unique<OneAxleSteeringCommandListener>(
-          teleop->get_node(),romea::get_command_output_message_type(teleop->get_node()));
+    std::string message_type = romea::get_command_output_message_type(teleop->get_node());
+
+    if( message_type == "geometry_msgs/Twist")
+    {
+      make_listener<geometry_msgs::msg::Twist>("cmd_vel");
+    }
+    else if( message_type == "romea_mobile_base_msgs/OneAxleSteeringCommand")
+    {
+      make_listener<romea_mobile_base_msgs::msg::OneAxleSteeringCommand>("cmd_one_axle_steering");
+    }
 
   }
 
@@ -106,7 +121,7 @@ public :
 
   std::unique_ptr<TestableOneAxleSteeringTeleop> teleop;
   std::unique_ptr<MessageJoystickPublisher> joy_pub;
-  std::unique_ptr<OneAxleSteeringCommandListener> cmd_sub;
+  std::shared_ptr<OneAxleSteeringCommandListener> cmd_sub;
 
 };
 
@@ -115,8 +130,8 @@ TEST_F(TestOneAxleSteeringTeleop, testSlowModeXbox)
   init("xbox");
   sendJoyMsgAndWait(1.0,1.0,1,0);
 
-  EXPECT_DOUBLE_EQ(cmd_sub->get_command().longitudinalSpeed,1.0);
-  EXPECT_DOUBLE_EQ(cmd_sub->get_command().steeringAngle,3.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().longitudinalSpeed,1.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().steeringAngle,3.0);
 }
 
 TEST_F(TestOneAxleSteeringTeleop, testTurboModeXbox)
@@ -124,8 +139,8 @@ TEST_F(TestOneAxleSteeringTeleop, testTurboModeXbox)
   init("xbox");
   sendJoyMsgAndWait(-1.0,-1.0,0,1);
 
-  EXPECT_DOUBLE_EQ(cmd_sub->get_command().longitudinalSpeed,-2.0);
-  EXPECT_DOUBLE_EQ(cmd_sub->get_command().steeringAngle,-3.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().longitudinalSpeed,-2.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().steeringAngle,-3.0);
 }
 
 TEST_F(TestOneAxleSteeringTeleop, testNoCmdXbox)
@@ -133,8 +148,8 @@ TEST_F(TestOneAxleSteeringTeleop, testNoCmdXbox)
   init("xbox");
   sendJoyMsgAndWait(1.0,1.0,0,0);
 
-  EXPECT_DOUBLE_EQ(cmd_sub->get_command().longitudinalSpeed,0.0);
-  EXPECT_DOUBLE_EQ(cmd_sub->get_command().steeringAngle,0.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().longitudinalSpeed,0.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().steeringAngle,0.0);
 }
 
 TEST_F(TestOneAxleSteeringTeleop, testSlowModeDualshock4)
@@ -142,8 +157,8 @@ TEST_F(TestOneAxleSteeringTeleop, testSlowModeDualshock4)
   init("dualshock4");
   sendJoyMsgAndWait(-0.525,0.525,1,0);
 
-  EXPECT_NEAR(cmd_sub->get_command().longitudinalSpeed,-0.5,0.001);
-  EXPECT_NEAR(cmd_sub->get_command().steeringAngle,1.5,0.001);
+  EXPECT_NEAR(cmd_sub->get_data().longitudinalSpeed,-0.5,0.001);
+  EXPECT_NEAR(cmd_sub->get_data().steeringAngle,1.5,0.001);
 }
 
 TEST_F(TestOneAxleSteeringTeleop, testTurboModeDualshock4)
@@ -151,8 +166,8 @@ TEST_F(TestOneAxleSteeringTeleop, testTurboModeDualshock4)
   init("dualshock4");
   sendJoyMsgAndWait(0.525,-0.525,0,1);
 
-  EXPECT_NEAR(cmd_sub->get_command().longitudinalSpeed,1.0,0.001);
-  EXPECT_NEAR(cmd_sub->get_command().steeringAngle,-1.5,0.001);
+  EXPECT_NEAR(cmd_sub->get_data().longitudinalSpeed,1.0,0.001);
+  EXPECT_NEAR(cmd_sub->get_data().steeringAngle,-1.5,0.001);
 }
 
 TEST_F(TestOneAxleSteeringTeleop, testNoCmdDualshock4)
@@ -160,8 +175,8 @@ TEST_F(TestOneAxleSteeringTeleop, testNoCmdDualshock4)
   init("dualshock4");
   sendJoyMsgAndWait(1.0,1.0,0,0);
 
-  EXPECT_DOUBLE_EQ(cmd_sub->get_command().longitudinalSpeed,0.0);
-  EXPECT_DOUBLE_EQ(cmd_sub->get_command().steeringAngle,0.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().longitudinalSpeed,0.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().steeringAngle,0.0);
 }
 
 //int main(int argc, char** argv)

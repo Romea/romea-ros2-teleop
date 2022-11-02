@@ -22,7 +22,7 @@ class TeleopBase
 {
 public:
 
-  using CmdPubType = CommandPublisher<CommandType>;
+  using CmdPublisher = PublisherBase<CommandType>;
   using Remappings = std::map<std::string,std::string>;
 
 
@@ -60,7 +60,7 @@ protected :
 
   rclcpp::Node::SharedPtr node_;
   std::unique_ptr<Joystick> joy_;
-  std::unique_ptr<CmdPubType> cmd_pub_;
+  std::shared_ptr<CmdPublisher> cmd_pub_;
   CmdMuxInterface cmd_mux_client_;
 
 
