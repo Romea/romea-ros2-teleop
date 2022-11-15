@@ -179,12 +179,9 @@ TEST_F(TestSkidSteeringTeleop, testNoCmdDualshock4)
   EXPECT_DOUBLE_EQ(cmd_sub->get_data().angularSpeed,0.0);
 }
 
-//int main(int argc, char** argv)
-//{
-//  testing::InitGoogleTest(&argc, argv);
-//  ros::init(argc, argv, "ackermann_teleop_test");
-
-//  int ret = RUN_ALL_TESTS();
-//  ros::shutdown();
-//  return ret;
-//}
+int main(int argc, char** argv)
+{
+  testing::InitGoogleTest(&argc, argv);
+  int ret = RUN_ALL_TESTS();
+  return ret;
+}
