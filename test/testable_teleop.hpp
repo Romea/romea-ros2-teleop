@@ -1,14 +1,20 @@
+
+// std
+#include <memory>
+#include <map>
+#include <string>
+
+// ros
 #include <rclcpp/rclcpp.hpp>
+
 
 template <class TeleopType>
 class   TestableTeleop : public TeleopType
 {
   public:
-
-   TestableTeleop(const rclcpp::NodeOptions & options):
+   explicit TestableTeleop(const rclcpp::NodeOptions & options):
      TeleopType(options)
    {
-
    }
 
    std::shared_ptr<rclcpp::Node> get_node() const
@@ -16,12 +22,10 @@ class   TestableTeleop : public TeleopType
      return TeleopType::node_;
    }
 
-
-   std::map<std::string,int> get_mapping() const
+   std::map<std::string, int> get_mapping() const
    {
      return TeleopType::joy_->get_mapping();
    }
-
 };
 
 

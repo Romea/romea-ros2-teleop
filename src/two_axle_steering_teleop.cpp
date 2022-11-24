@@ -27,9 +27,9 @@ void TwoAxleSteeringTeleop::declare_command_ranges_()
 //-----------------------------------------------------------------------------
 void TwoAxleSteeringTeleop::get_command_ranges_()
 {
-  maximal_linear_speeds_=get_maximal_linear_speeds(node_);
-  maximal_front_steering_angle_=get_maximal_front_steering_angle(node_);
-  maximal_rear_steering_angle_=get_maximal_rear_steering_angle(node_);
+  maximal_linear_speeds_ = get_maximal_linear_speeds(node_);
+  maximal_front_steering_angle_ = get_maximal_front_steering_angle(node_);
+  maximal_rear_steering_angle_ = get_maximal_rear_steering_angle(node_);
 }
 
 //-----------------------------------------------------------------------------
@@ -64,22 +64,24 @@ void TwoAxleSteeringTeleop::joystick_callback_(const Joystick & joy)
 
   if (joy.getButtonValue("turbo_mode"))
   {
-    cmd_msg.longitudinalSpeed = (joy.getAxeValue("forward_speed")-joy.getAxeValue("backward_speed"))*maximal_linear_speeds_.turbo_mode;
-    cmd_msg.frontSteeringAngle = joy.getAxeValue("front_steering_angle")*maximal_front_steering_angle_;
-    cmd_msg.rearSteeringAngle = joy.getAxeValue("rear_steering_angle")*maximal_rear_steering_angle_;
+    cmd_msg.longitudinalSpeed = (joy.getAxeValue("forward_speed")-
+      joy.getAxeValue("backward_speed"))*maximal_linear_speeds_.turbo_mode;
+    cmd_msg.frontSteeringAngle =
+      joy.getAxeValue("front_steering_angle")*maximal_front_steering_angle_;
+    cmd_msg.rearSteeringAngle =
+      joy.getAxeValue("rear_steering_angle")*maximal_rear_steering_angle_;
     cmd_pub_->publish(cmd_msg);
     sent_disable_msg_ = false;
-  }
-  else if (joy.getButtonValue("slow_mode"))
-  {
-    cmd_msg.longitudinalSpeed = (joy.getAxeValue("forward_speed")-joy.getAxeValue("backward_speed"))*maximal_linear_speeds_.slow_mode;
-    cmd_msg.frontSteeringAngle = joy.getAxeValue("front_steering_angle")*maximal_front_steering_angle_;
-    cmd_msg.rearSteeringAngle = joy.getAxeValue("rear_steering_angle")*maximal_rear_steering_angle_;
+  } else if (joy.getButtonValue("slow_mode")) {
+    cmd_msg.longitudinalSpeed = (joy.getAxeValue("forward_speed")-
+      joy.getAxeValue("backward_speed"))*maximal_linear_speeds_.slow_mode;
+    cmd_msg.frontSteeringAngle =
+      joy.getAxeValue("front_steering_angle")*maximal_front_steering_angle_;
+    cmd_msg.rearSteeringAngle =
+      joy.getAxeValue("rear_steering_angle")*maximal_rear_steering_angle_;
     cmd_pub_->publish(cmd_msg);
     sent_disable_msg_ = false;
-  }
-  else
-  {
+  } else {
     // When mode button is released, immediately send a single no-motion command
     // in order to stop the robot.
     if (!sent_disable_msg_)
@@ -90,7 +92,7 @@ void TwoAxleSteeringTeleop::joystick_callback_(const Joystick & joy)
   }
 }
 
-}
+}  // namespace romea
 
 #include <rclcpp_components/register_node_macro.hpp>
 RCLCPP_COMPONENTS_REGISTER_NODE(romea::TwoAxleSteeringTeleop)

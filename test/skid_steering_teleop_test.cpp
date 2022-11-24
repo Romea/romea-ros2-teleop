@@ -16,11 +16,10 @@ class MessageJoystickPublisher
 public :
 
   MessageJoystickPublisher(const std::shared_ptr<rclcpp::Node> & node,
-                           const std::map<std::string,int> & joystick_mapping):
+                           const std::map<std::string, int> & joystick_mapping):
     joystick_mapping_(joystick_mapping),
-    joy_pub_(node->create_publisher<sensor_msgs::msg::Joy>("joy",1))
+    joy_pub_(node->create_publisher<sensor_msgs::msg::Joy>("joy", 1))
   {
-
   }
 
   void publish(const double & linear_speed_axe_value,
@@ -29,19 +28,17 @@ public :
                const int turbo_mode_button_value)
   {
     sensor_msgs::msg::Joy msg;
-    msg.axes.resize(20,0);
-    msg.buttons.resize(20,0);
-    msg.axes[joystick_mapping_["linear_speed"]]=linear_speed_axe_value;
-    msg.axes[joystick_mapping_["angular_speed"]]=angular_speed_axe_value;
-    msg.buttons[joystick_mapping_["slow_mode"]]= slow_mode_button_value;
-    msg.buttons[joystick_mapping_["turbo_mode"]]= turbo_mode_button_value;
+    msg.axes.resize(20, 0);
+    msg.buttons.resize(20, 0);
+    msg.axes[joystick_mapping_["linear_speed"]] = linear_speed_axe_value;
+    msg.axes[joystick_mapping_["angular_speed"]] = angular_speed_axe_value;
+    msg.buttons[joystick_mapping_["slow_mode"]] = slow_mode_button_value;
+    msg.buttons[joystick_mapping_["turbo_mode"]] = turbo_mode_button_value;
     joy_pub_->publish(msg);
-
   }
 
 private:
-
-  std::map<std::string,int> joystick_mapping_;
+  std::map<std::string, int> joystick_mapping_;
   std::shared_ptr<rclcpp::Publisher<sensor_msgs::msg::Joy>> joy_pub_;
 };
 
@@ -49,7 +46,6 @@ private:
 
 class TestSkidSteeringTeleop : public ::testing::Test
 {
-
 public :
 
   TestSkidSteeringTeleop():
@@ -57,7 +53,6 @@ public :
     joy_pub(),
     cmd_sub()
   {
-
   }
 
   static void SetUpTestCase()
@@ -73,8 +68,8 @@ public :
   template<typename MgsType>
   void make_listener(const std::string & topic_name)
   {
-    cmd_sub = romea::make_data_listener<romea::SkidSteeringCommand,MgsType>(
-          teleop->get_node(),topic_name,romea::best_effort(1));
+    cmd_sub = romea::make_data_listener<romea::SkidSteeringCommand, MgsType>(
+          teleop->get_node(), topic_name, romea::best_effort(1));
   }
 
   void init(const std::string & joystick_type)
@@ -89,16 +84,14 @@ public :
     teleop = std::make_unique<TestableSkidSteeringTeleop>(no);
 
     joy_pub = std::make_unique<MessageJoystickPublisher>(
-          teleop->get_node(),teleop->get_mapping());
+          teleop->get_node(), teleop->get_mapping());
 
     std::string message_type = romea::get_command_output_message_type(teleop->get_node());
 
-    if( message_type == "geometry_msgs/Twist")
+    if (message_type == "geometry_msgs/Twist")
     {
       make_listener<geometry_msgs::msg::Twist>("cmd_vel");
-    }
-    else if( message_type == "romea_mobile_base_msgs/SkidSteeringCommand")
-    {
+    } else if (message_type == "romea_mobile_base_msgs/SkidSteeringCommand") {
       make_listener<romea_mobile_base_msgs::msg::SkidSteeringCommand>("cmd_skid_steering");
     }
   }
@@ -128,55 +121,55 @@ public :
 TEST_F(TestSkidSteeringTeleop, testSlowModeXbox)
 {
   init("xbox");
-  sendJoyMsgAndWait(1.0,1.0,1,0);
+  sendJoyMsgAndWait(1.0, 1.0, 1, 0);
 
-  EXPECT_DOUBLE_EQ(cmd_sub->get_data().longitudinalSpeed,1.0);
-  EXPECT_DOUBLE_EQ(cmd_sub->get_data().angularSpeed,3.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().longitudinalSpeed, 1.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().angularSpeed, 3.0);
 }
 
 TEST_F(TestSkidSteeringTeleop, testTurboModeXbox)
 {
   init("xbox");
-  sendJoyMsgAndWait(-1.0,-1.0,0,1);
+  sendJoyMsgAndWait(-1.0, -1.0, 0, 1);
 
-  EXPECT_DOUBLE_EQ(cmd_sub->get_data().longitudinalSpeed,-2.0);
-  EXPECT_DOUBLE_EQ(cmd_sub->get_data().angularSpeed,-4.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().longitudinalSpeed, -2.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().angularSpeed, -4.0);
 }
 
 TEST_F(TestSkidSteeringTeleop, testNoCmdXbox)
 {
   init("xbox");
-  sendJoyMsgAndWait(1.0,1.0,0,0);
+  sendJoyMsgAndWait(1.0, 1.0, 0, 0);
 
-  EXPECT_DOUBLE_EQ(cmd_sub->get_data().longitudinalSpeed,0.0);
-  EXPECT_DOUBLE_EQ(cmd_sub->get_data().angularSpeed,0.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().longitudinalSpeed, 0.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().angularSpeed, 0.0);
 }
 
 TEST_F(TestSkidSteeringTeleop, testSlowModeDualshock4)
 {
   init("dualshock4");
-  sendJoyMsgAndWait(-0.525,0.525,1,0);
+  sendJoyMsgAndWait(-0.525, 0.525, 1, 0);
 
-  EXPECT_NEAR(cmd_sub->get_data().longitudinalSpeed,-0.5,0.001);
-  EXPECT_NEAR(cmd_sub->get_data().angularSpeed,1.5,0.001);
+  EXPECT_NEAR(cmd_sub->get_data().longitudinalSpeed, -0.5, 0.001);
+  EXPECT_NEAR(cmd_sub->get_data().angularSpeed, 1.5, 0.001);
 }
 
 TEST_F(TestSkidSteeringTeleop, testTurboModeDualshock4)
 {
   init("dualshock4");
-  sendJoyMsgAndWait(0.525,-0.525,0,1);
+  sendJoyMsgAndWait(0.525, -0.525, 0, 1);
 
-  EXPECT_NEAR(cmd_sub->get_data().longitudinalSpeed,1.0,0.001);
-  EXPECT_NEAR(cmd_sub->get_data().angularSpeed,-2.0,0.001);
+  EXPECT_NEAR(cmd_sub->get_data().longitudinalSpeed, 1.0, 0.001);
+  EXPECT_NEAR(cmd_sub->get_data().angularSpeed, -2.0, 0.001);
 }
 
 TEST_F(TestSkidSteeringTeleop, testNoCmdDualshock4)
 {
   init("dualshock4");
-  sendJoyMsgAndWait(1.0,1.0,0,0);
+  sendJoyMsgAndWait(1.0, 1.0, 0, 0);
 
-  EXPECT_DOUBLE_EQ(cmd_sub->get_data().longitudinalSpeed,0.0);
-  EXPECT_DOUBLE_EQ(cmd_sub->get_data().angularSpeed,0.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().longitudinalSpeed, 0.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().angularSpeed, 0.0);
 }
 
 int main(int argc, char** argv)
