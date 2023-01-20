@@ -2,16 +2,16 @@
   ros__parameters:
     joystick_mapping:
       axes:
-        front_steering_angle: 0
-        rear_steering_angle: 1
-        forward_speed: 2
-        backward_speed: 3
+        forward_speed: 0
+        backward_speed: 1
+        front_steering_angle: 2
+        rear_steering_angle: 3
       buttons:
         slow_mode: 0
         turbo_mode: 1
     cmd_output:
-      type: four_wheel_steering_msgs/FourWheelSteering
-#      priority: 100 # [0 255] if not declared no subscription to cmd_mux is done
+      message_type: four_wheel_steering_msgs/FourWheelSteering
+#      message_priority: 100 # [0 255] if not declared no subscription to cmd_mux is done
     cmd_range:
       maximal_linear_speed:
         slow_mode: 1.0

@@ -10,6 +10,7 @@
 // std
 #include <map>
 #include <string>
+#include <iostream>
 
 namespace romea
 {
@@ -106,8 +107,6 @@ void TwoAxleSteeringTeleop::joystick_callback_(const Joystick & joy)
       joy.getAxeValue("rear_steering_angle") * maximal_rear_steering_angle_;
     cmd_pub_->publish(cmd_msg);
     sent_disable_msg_ = false;
-
-    std::cout << cmd_msg << std::endl;
   } else {
     // When mode button is released, immediately send a single no-motion command
     // in order to stop the robot.

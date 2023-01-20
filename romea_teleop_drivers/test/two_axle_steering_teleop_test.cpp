@@ -27,7 +27,7 @@ public:
     const std::shared_ptr<rclcpp::Node> & node,
     const std::map<std::string, int> & joystick_mapping)
   : joystick_mapping_(joystick_mapping),
-    joy_pub_(node->create_publisher<sensor_msgs::msg::Joy>("joy", 1))
+    joy_pub_(node->create_publisher<sensor_msgs::msg::Joy>("joystick/joy", 1))
   {
   }
 

@@ -1,7 +1,6 @@
 // Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
 // Add license
 
-
 // romea
 #include <romea_core_mobile_base/kinematic/skid_steering/SkidSteeringCommand.hpp>
 #include <romea_core_mobile_base/kinematic/omni_steering/OmniSteeringCommand.hpp>
@@ -10,8 +9,8 @@
 
 // std
 #include <memory>
-#include <string>
 #include <utility>
+#include <string>
 
 // local
 #include "romea_teleop/teleop_base.hpp"
