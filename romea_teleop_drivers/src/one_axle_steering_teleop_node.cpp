@@ -1,7 +1,10 @@
+// Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
+// Add license
+
 #include <rclcpp/rclcpp.hpp>
 #include "romea_teleop/one_axle_steering_teleop.hpp"
 
-int main(int argc, char** argv)
+int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
   rclcpp::NodeOptions options;
@@ -12,4 +15,3 @@ int main(int argc, char** argv)
   rclcpp::shutdown();
   return 0;
 }
-

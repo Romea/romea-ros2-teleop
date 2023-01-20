@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+# Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
+# Add license
 
 import sys
 import math
@@ -12,6 +13,7 @@ from romea_mobile_base_description import (
     get_maximal_linear_speed,
     get_maximal_wheel_angle,
     get_maximal_steering_angle,
+    get_maximal_angular_speed,
     get_kinematic_type,
     get_command_type,
 )
@@ -62,9 +64,12 @@ def skid_steering_teleop_cmd_range_clamp_(
 
 def skid_steering_teleop_cmd_range_clamp(mobile_base_configuration, user_cmd_range):
 
-    track = get_track(mobile_base_configuration)
+    # track = get_track(mobile_base_configuration)
+    # maximal_linear_speed = get_maximal_linear_speed(mobile_base_configuration)
+    # maximal_angular_speed = 2 * maximal_linear_speed / track
+
     maximal_linear_speed = get_maximal_linear_speed(mobile_base_configuration)
-    maximal_angular_speed = 2 * maximal_linear_speed / track
+    maximal_angular_speed = get_maximal_angular_speed(mobile_base_configuration)
 
     return skid_steering_teleop_cmd_range_clamp_(
         maximal_linear_speed, maximal_angular_speed, user_cmd_range
@@ -83,7 +88,7 @@ def omni_steering_teleop_cmd_range_clamp_(
         user_cmd_range["maximal_lateral_speed"].get("slow_mode", sys.float_info.max),
         maximal_linear_speed,
     )
-    cmd_range["maximal_laateral_speed"]["turbo_mode"] = min(
+    cmd_range["maximal_lateral_speed"]["turbo_mode"] = min(
         user_cmd_range["maximal_lateral_speed"].get("turbo_mode", sys.float_info.max),
         maximal_linear_speed,
     )
@@ -93,9 +98,12 @@ def omni_steering_teleop_cmd_range_clamp_(
 
 def omni_steering_teleop_cmd_range_clamp(mobile_base_configuration, user_cmd_range):
 
-    track = get_track(mobile_base_configuration)
+    # track = get_track(mobile_base_configuration)
+    # maximal_linear_speed = get_maximal_linear_speed(mobile_base_configuration)
+    # maximal_angular_speed = 2 * maximal_linear_speed / track
+
     maximal_linear_speed = get_maximal_linear_speed(mobile_base_configuration)
-    maximal_angular_speed = 2 * maximal_linear_speed / track
+    maximal_angular_speed = get_maximal_angular_speed(mobile_base_configuration)
 
     return omni_steering_teleop_cmd_range_clamp_(
         maximal_linear_speed, maximal_angular_speed, user_cmd_range
@@ -233,7 +241,7 @@ def cmd_range_clamp(mobile_base_info, cmd_range):
     elif kinematic_type == "skid_steering":
         return skid_steering_teleop_cmd_range_clamp(mobile_base_info, cmd_range)
     else:
-        raise ValueError("Unknow kinematic type "+ kinematic_type)
+        raise ValueError("Unknow kinematic type " + kinematic_type)
 
 
 def complete_teleop_configuration(

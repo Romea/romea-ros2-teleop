@@ -1,7 +1,20 @@
-#include "romea_teleop/command_parameters.hpp"
+// Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
+// Add license
+
+// romea
 #include <romea_common_utils/params/node_parameters.hpp>
 
-namespace  {
+// std
+#include <limits>
+#include <map>
+#include <memory>
+#include <string>
+
+// local
+#include "romea_teleop/command_parameters.hpp"
+
+namespace
+{
 
 const char COMMAND_RANGE_MAXIMAL_STEERING_ANGLE_PARAM_NAME[] =
   "cmd_range.maximal_steering_angle";
@@ -10,7 +23,7 @@ const char COMMAND_RANGE_MAXIMAL_FRONT_STEERING_ANGLE_PARAM_NAME[] =
 const char COMMAND_RANGE_MAXIMAL_REAR_STEERING_ANGLE_PARAM_NAME[] =
   "cmd_range.maximal_rear_steering_angle";
 const char COMMAND_RANGE_MAXIMAL_LINEAR_SPEED_PARAM_NAME[] =
- "cmd_range.maximal_linear_speed";
+  "cmd_range.maximal_linear_speed";
 const char COMMAND_RANGE_MAXIMAL_LATERAL_SPEED_PARAM_NAME[] =
   "cmd_range.maximal_lateral_speed";
 const char COMMAND_RANGE_MAXIMAL_ANGULAR_SPEED_PARAM_NAME[] =
@@ -19,36 +32,37 @@ const char COMMAND_RANGE_MAXIMAL_ANGULAR_SPEED_PARAM_NAME[] =
 const char SLOW_MODE_SUFFIX[] = ".slow_mode";
 const char TURBO_MODE_SUFFIX[] = ".turbo_mode";
 
-const char COMMAND_MESSAGE_TYPE_PARAM_NAME[]="cmd_output.message_type";
-const char COMMAND_MESSAGE_PRIORITY_PARAM_NAME[]="cmd_output.message_priority";
+const char COMMAND_MESSAGE_TYPE_PARAM_NAME[] = "cmd_output.message_type";
+const char COMMAND_MESSAGE_PRIORITY_PARAM_NAME[] = "cmd_output.message_priority";
 
 
 //-----------------------------------------------------------------------------
-void declare_maximal_speeds(std::shared_ptr<rclcpp::Node> node,
-                            const std::string & speed_param_name)
+void declare_maximal_speeds(
+  std::shared_ptr<rclcpp::Node> node,
+  const std::string & speed_param_name)
 {
   romea::declare_parameter<double>(
-        node, speed_param_name + SLOW_MODE_SUFFIX);
+    node, speed_param_name + SLOW_MODE_SUFFIX);
 
   romea::declare_parameter_with_default<double>(
-        node, speed_param_name + TURBO_MODE_SUFFIX,
-        std::numeric_limits<double>::quiet_NaN());
+    node, speed_param_name + TURBO_MODE_SUFFIX,
+    std::numeric_limits<double>::quiet_NaN());
 }
 
 //-----------------------------------------------------------------------------
-romea::MaximalSpeeds get_maximal_speeds(std::shared_ptr<rclcpp::Node> node,
-                                 const std::string & speed_param_name)
+romea::MaximalSpeeds get_maximal_speeds(
+  std::shared_ptr<rclcpp::Node> node,
+  const std::string & speed_param_name)
 {
   romea::MaximalSpeeds maximal_speeds;
 
   maximal_speeds.slow_mode = romea::get_parameter<double>(
-        node, speed_param_name + SLOW_MODE_SUFFIX);
+    node, speed_param_name + SLOW_MODE_SUFFIX);
 
   maximal_speeds.turbo_mode = romea::get_parameter<double>(
-        node, speed_param_name + TURBO_MODE_SUFFIX);
+    node, speed_param_name + TURBO_MODE_SUFFIX);
 
-  if (std::isnan(maximal_speeds.turbo_mode))
-  {
+  if (std::isnan(maximal_speeds.turbo_mode)) {
     maximal_speeds.turbo_mode = maximal_speeds.turbo_mode;
   }
 
@@ -57,7 +71,8 @@ romea::MaximalSpeeds get_maximal_speeds(std::shared_ptr<rclcpp::Node> node,
 
 }  // namespace
 
-namespace romea {
+namespace romea
+{
 
 
 //-----------------------------------------------------------------------------

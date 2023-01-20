@@ -1,24 +1,33 @@
+// Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
+// Add license
+
+// local
 #include "romea_teleop/omni_steering_teleop.hpp"
+
+// ros
+#include <rclcpp_components/register_node_macro.hpp>
+
+// std
+#include <map>
+#include <string>
+
 
 namespace romea
 {
 
 //-----------------------------------------------------------------------------
-OmniSteeringTeleop::OmniSteeringTeleop(const rclcpp::NodeOptions &options):
-  TeleopBase(options),
+OmniSteeringTeleop::OmniSteeringTeleop(const rclcpp::NodeOptions & options)
+: TeleopBase(options),
   maximal_linear_speeds_(),
   maximal_lateral_speeds_(),
   maximal_angular_speeds_(),
   sent_disable_msg_(false)
 {
-  try
-  {
+  try {
     declare_parameters_();
     init_joystick_();
     init_command_publisher_();
-  }
-  catch(const std::exception& e)
-  {
+  } catch (const std::exception & e) {
     RCLCPP_ERROR_STREAM(node_->get_logger(), e.what());
   }
 }
@@ -74,27 +83,24 @@ std::map<std::string, int> OmniSteeringTeleop::get_joystick_buttons_mapping_()
 }
 
 
-
 //-----------------------------------------------------------------------------
-void OmniSteeringTeleop::joystick_callback_(const Joystick &joy)
+void OmniSteeringTeleop::joystick_callback_(const Joystick & joy)
 {
   OmniSteeringCommand cmd_msg;
-  if (joy.getButtonValue("turbo_mode"))
-  {
-    cmd_msg.longitudinalSpeed = joy.getAxeValue("linear_speed")*maximal_linear_speeds_.turbo_mode;
-    cmd_msg.lateralSpeed = joy.getAxeValue("lateral_speed")*maximal_lateral_speeds_.turbo_mode;
-    cmd_msg.angularSpeed = joy.getAxeValue("angular_speed")*maximal_angular_speeds_.turbo_mode;
+  if (joy.getButtonValue("turbo_mode")) {
+    cmd_msg.longitudinalSpeed = joy.getAxeValue("linear_speed") * maximal_linear_speeds_.turbo_mode;
+    cmd_msg.lateralSpeed = joy.getAxeValue("lateral_speed") * maximal_lateral_speeds_.turbo_mode;
+    cmd_msg.angularSpeed = joy.getAxeValue("angular_speed") * maximal_angular_speeds_.turbo_mode;
     cmd_pub_->publish(cmd_msg);
     sent_disable_msg_ = false;
   } else if (joy.getButtonValue("slow_mode")) {
-    cmd_msg.longitudinalSpeed = joy.getAxeValue("linear_speed")*maximal_linear_speeds_.slow_mode;
-    cmd_msg.lateralSpeed = joy.getAxeValue("lateral_speed")*maximal_lateral_speeds_.slow_mode;
-    cmd_msg.angularSpeed = joy.getAxeValue("angular_speed")*maximal_angular_speeds_.slow_mode;
+    cmd_msg.longitudinalSpeed = joy.getAxeValue("linear_speed") * maximal_linear_speeds_.slow_mode;
+    cmd_msg.lateralSpeed = joy.getAxeValue("lateral_speed") * maximal_lateral_speeds_.slow_mode;
+    cmd_msg.angularSpeed = joy.getAxeValue("angular_speed") * maximal_angular_speeds_.slow_mode;
     cmd_pub_->publish(cmd_msg);
     sent_disable_msg_ = false;
   } else {
-    if (!sent_disable_msg_)
-    {
+    if (!sent_disable_msg_) {
       cmd_pub_->publish(cmd_msg);
       sent_disable_msg_ = true;
     }
@@ -103,5 +109,4 @@ void OmniSteeringTeleop::joystick_callback_(const Joystick &joy)
 
 }  // namespace romea
 
-#include <rclcpp_components/register_node_macro.hpp>
 RCLCPP_COMPONENTS_REGISTER_NODE(romea::OmniSteeringTeleop)

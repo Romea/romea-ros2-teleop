@@ -1,28 +1,34 @@
-#ifndef ROMEA_TELEOP_TELEOP_BASE_HPP_
-#define ROMEA_TELEOP_TELEOP_BASE_HPP_
+// Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
+// Add license
 
-// std
-#include <map>
-#include <string>
-#include <memory>
+#ifndef ROMEA_TELEOP__TELEOP_BASE_HPP_
+#define ROMEA_TELEOP__TELEOP_BASE_HPP_
+
 
 // ros
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/joy.hpp>
 
 // romea
-#include "romea_teleop/command_parameters.hpp"
-#include "romea_teleop/joystick_parameters.hpp"
-#include "romea_teleop/visibility_control.h"
-
 #include <romea_mobile_base_utils/control/command_publisher.hpp>
 #include <romea_cmd_mux_utils/cmd_mux_interface.hpp>
 #include <romea_joystick_utils/joystick.hpp>
 
+// std
+#include <map>
+#include <string>
+#include <memory>
+
+// local
+#include "romea_teleop/command_parameters.hpp"
+#include "romea_teleop/joystick_parameters.hpp"
+#include "romea_teleop/visibility_control.h"
+
+
 namespace romea
 {
 
-template <class CommandType>
+template<class CommandType>
 class TeleopBase
 {
 public:
@@ -60,8 +66,7 @@ protected:
 
   virtual std::map<std::string, int> get_joystick_buttons_mapping_() = 0;
 
-protected :
-
+protected:
   rclcpp::Node::SharedPtr node_;
   std::unique_ptr<Joystick> joy_;
   std::shared_ptr<CmdPublisher> cmd_pub_;
@@ -70,4 +75,4 @@ protected :
 
 }  // namespace romea
 
-#endif  // ROMEA_TELEOP_TELEOP_BASE_HPP_
+#endif  // ROMEA_TELEOP__TELEOP_BASE_HPP_

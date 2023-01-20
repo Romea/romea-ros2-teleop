@@ -1,3 +1,6 @@
+# Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
+# Add license
+
 from launch import LaunchDescription
 
 from launch.actions import (
@@ -11,21 +14,22 @@ from launch_ros.actions import PushRosNamespace
 from launch.substitutions import LaunchConfiguration
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
-from romea_joystick_bringup import get_joystick_type, get_joystick_driver_pkg
-from romea_mobile_base_bringup import get_base_type, get_base_model
-import yaml
+
+from romea_joystick_bringup import JoystickMetaDescription
+from romea_mobile_base_bringup import MobileBaseMetaDescription
+
 
 def get_robot_namespace(context):
     return LaunchConfiguration("robot_namespace").perform(context)
 
 
 def get_base_meta_description(context):
+
     base_meta_description_filename = LaunchConfiguration(
         "base_meta_description_filename"
     ).perform(context)
 
-    with open(base_meta_description_filename) as f:
-        return yaml.safe_load(f)
+    return MobileBaseMetaDescription(base_meta_description_filename)
 
 
 def get_joystick_meta_description(context):
@@ -33,8 +37,7 @@ def get_joystick_meta_description(context):
         "joystick_meta_description_filename"
     ).perform(context)
 
-    with open(joystick_meta_description_filename) as f:
-        return yaml.safe_load(f)
+    return JoystickMetaDescription(joystick_meta_description_filename)
 
 
 def get_teleop_configuration_filename(context):
@@ -48,14 +51,13 @@ def launch_setup(context, *args, **kwargs):
     joystick_meta_description = get_joystick_meta_description(context)
     teleop_configuration_filename = get_teleop_configuration_filename(context)
 
-    robot_type = get_base_type(base_meta_description)
-    robot_model = get_base_model(base_meta_description)
-    joystick_type = get_joystick_type(joystick_meta_description)
-    joystick_driver = get_joystick_driver_pkg(joystick_meta_description)
+    robot_type = base_meta_description.get_type()
+    robot_model = base_meta_description.get_model()
+    joystick_type = joystick_meta_description.get_type()
+    joystick_driver = joystick_meta_description.get_driver_pkg()
 
-
-    print("robot_type",robot_type)
-    print("robot_model",robot_model)
+    print("robot_type", robot_type)
+    print("robot_model", robot_model)
 
     teleop = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -75,7 +77,6 @@ def launch_setup(context, *args, **kwargs):
 
     return [GroupAction(actions)]
 
-    
 
 def generate_launch_description():
 

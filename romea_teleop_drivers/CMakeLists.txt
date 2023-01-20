@@ -3,16 +3,16 @@ project(romea_teleop_drivers)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
- set(CMAKE_C_STANDARD 99)
+  set(CMAKE_C_STANDARD 99)
 endif()
 
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
- set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD 17)
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
- add_compile_options(-Wall -Wextra -Wpedantic)
+  add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
 
@@ -32,48 +32,46 @@ find_package(romea_cmd_mux_utils REQUIRED)
 
 
 add_library(${PROJECT_NAME} SHARED
- src/skid_steering_teleop.cpp
- src/omni_steering_teleop.cpp
- src/one_axle_steering_teleop.cpp
- src/two_axle_steering_teleop.cpp
- src/teleop_base.cpp
- src/command_parameters.cpp
- src/joystick_parameters.cpp)
+  src/skid_steering_teleop.cpp
+  src/omni_steering_teleop.cpp
+  src/one_axle_steering_teleop.cpp
+  src/two_axle_steering_teleop.cpp
+  src/teleop_base.cpp
+  src/command_parameters.cpp
+  src/joystick_parameters.cpp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
- $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
- $<INSTALL_INTERFACE:include>)
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
 
 target_compile_definitions(${PROJECT_NAME}
- PRIVATE "ROMEA_TELEOP_BUILDING_DLL")
+  PRIVATE "ROMEA_TELEOP_BUILDING_DLL")
 
 ament_target_dependencies(${PROJECT_NAME}
- rclcpp
- rclcpp_components
- romea_core_common
- romea_core_mobile_base
- romea_common_utils
- romea_cmd_mux_msgs
- romea_joystick_utils
- romea_mobile_base_msgs
- romea_mobile_base_utils
- romea_cmd_mux_msgs
- romea_cmd_mux_utils
- geometry_msgs
- )
+  rclcpp
+  rclcpp_components
+  romea_core_common
+  romea_core_mobile_base
+  romea_common_utils
+  romea_cmd_mux_msgs
+  romea_joystick_utils
+  romea_mobile_base_msgs
+  romea_mobile_base_utils
+  romea_cmd_mux_msgs
+  romea_cmd_mux_utils
+  geometry_msgs)
 
 rclcpp_components_register_nodes(${PROJECT_NAME}
   "romea::SkidSteeringTeleop"
   "romea::OmniSteeringTeleop"
   "romea::OneAxleSteeringTeleop"
-  "romea::TwoAxleSteeringTeleop"
-  )
+  "romea::TwoAxleSteeringTeleop")
 
 install(TARGETS
- ${PROJECT_NAME}
- ARCHIVE DESTINATION lib
- LIBRARY DESTINATION lib
- RUNTIME DESTINATION bin)
+  ${PROJECT_NAME}
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
 add_executable(skid_steering_teleop_node src/skid_steering_teleop_node.cpp)
 target_link_libraries(skid_steering_teleop_node ${PROJECT_NAME})
@@ -92,11 +90,11 @@ target_link_libraries(two_axle_steering_teleop_node ${PROJECT_NAME})
 ament_target_dependencies(two_axle_steering_teleop_node rclcpp)
 
 install(TARGETS
- skid_steering_teleop_node
- omni_steering_teleop_node
- one_axle_steering_teleop_node
- two_axle_steering_teleop_node
- DESTINATION lib/${PROJECT_NAME})
+  skid_steering_teleop_node
+  omni_steering_teleop_node
+  one_axle_steering_teleop_node
+  two_axle_steering_teleop_node
+  DESTINATION lib/${PROJECT_NAME})
 
 #ament_export_dependencies(eigen3_cmake_module)
 #ament_export_dependencies(Eigen3)
@@ -119,9 +117,8 @@ install(TARGETS
 # DESTINATION lib/${PROJECT_NAME})
 
 install(
- DIRECTORY launch
- DESTINATION share/${PROJECT_NAME}
- )
+  DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME})
 
 #install(
 #  DIRECTORY include/

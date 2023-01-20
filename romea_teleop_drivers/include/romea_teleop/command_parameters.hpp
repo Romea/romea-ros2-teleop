@@ -1,12 +1,16 @@
-#ifndef ROMEA_TELEOP_COMMAND_PARAMETERS_HPP_
-#define ROMEA_TELEOP_COMMAND_PARAMETERS_HPP_
+// Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
+// Add license
+
+#ifndef ROMEA_TELEOP__COMMAND_PARAMETERS_HPP_
+#define ROMEA_TELEOP__COMMAND_PARAMETERS_HPP_
+
+
+// ros
+#include <rclcpp/rclcpp.hpp>
 
 // std
 #include <memory>
 #include <string>
-
-// ros
-#include <rclcpp/rclcpp.hpp>
 
 
 namespace romea
@@ -14,8 +18,8 @@ namespace romea
 
 struct MaximalSpeeds
 {
-   double slow_mode;
-   double turbo_mode;
+  double slow_mode;
+  double turbo_mode;
 };
 
 void declare_maximal_steering_angle(std::shared_ptr<rclcpp::Node> node);
@@ -55,4 +59,4 @@ int get_command_output_message_priority(std::shared_ptr<rclcpp::Node> node);
 
 }  // namespace romea
 
-#endif  // ROMEA_TELEOP_COMMAND_PARAMETERS_HPP_
+#endif  // ROMEA_TELEOP__COMMAND_PARAMETERS_HPP_

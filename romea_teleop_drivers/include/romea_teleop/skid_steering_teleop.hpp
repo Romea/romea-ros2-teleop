@@ -1,5 +1,8 @@
-#ifndef ROMEA_TELEOP_SKID_STEERING_TELEOP_HPP_
-#define ROMEA_TELEOP_SKID_STEERING_TELEOP_HPP_
+// Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
+// Add license
+
+#ifndef ROMEA_TELEOP__SKID_STEERING_TELEOP_HPP_
+#define ROMEA_TELEOP__SKID_STEERING_TELEOP_HPP_
 
 // std
 #include <map>
@@ -33,7 +36,7 @@ private:
 
   void get_command_ranges_() override;
 
-  void joystick_callback_(const Joystick &joy)override;
+  void joystick_callback_(const Joystick & joy)override;
 
 private:
   MaximalSpeeds maximal_linear_speeds_;
@@ -43,4 +46,4 @@ private:
 
 }  // namespace romea
 
-#endif  // ROMEA_TELEOP_SKID_STEERING_TELEOP_HPP_
+#endif  // ROMEA_TELEOP__SKID_STEERING_TELEOP_HPP_

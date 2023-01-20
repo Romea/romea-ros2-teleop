@@ -1,12 +1,15 @@
-#ifndef ROMEA_TELEOP_JOYSTICK_PARAMETERS_HPP_
-#define ROMEA_TELEOP_JOYSTICK_PARAMETERS_HPP_
+// Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
+// Add license
+
+#ifndef ROMEA_TELEOP__JOYSTICK_PARAMETERS_HPP_
+#define ROMEA_TELEOP__JOYSTICK_PARAMETERS_HPP_
+
+// ros
+#include <rclcpp/rclcpp.hpp>
 
 // std
 #include <string>
 #include <memory>
-
-// ros
-#include <rclcpp/rclcpp.hpp>
 
 
 namespace romea
@@ -55,4 +58,4 @@ int get_turbo_mode_button_mapping(std::shared_ptr<rclcpp::Node> node);
 
 }  // namespace romea
 
-#endif  // ROMEA_TELEOP_JOYSTICK_PARAMETERS_HPP_
+#endif  // ROMEA_TELEOP__JOYSTICK_PARAMETERS_HPP_

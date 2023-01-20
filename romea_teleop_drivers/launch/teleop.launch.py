@@ -1,9 +1,11 @@
+# Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
+# Add license
+
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, OpaqueFunction
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
-from ament_index_python.packages import get_package_share_directory
 from romea_mobile_base_description import get_mobile_base_description, get_command_type
 from romea_teleop_description import complete_teleop_configuration
 import yaml

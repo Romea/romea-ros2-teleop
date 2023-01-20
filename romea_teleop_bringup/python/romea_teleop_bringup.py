@@ -1,3 +1,6 @@
+# Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
+# Add license
+
 from ament_index_python.packages import get_package_share_directory
 import yaml
 
@@ -31,6 +34,7 @@ def get_default_joystick_remapping(joystick_type, command_type):
 
     with open(default_joystick_remapping_yaml_file) as f:
         return yaml.safe_load(f)
+
 
 # def get_joystick_remapping(joystick_type, robot_model, robot_type,teleop_configuration):
 

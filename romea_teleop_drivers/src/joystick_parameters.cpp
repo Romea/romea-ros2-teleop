@@ -1,25 +1,43 @@
-#include "romea_teleop/joystick_parameters.hpp"
+// Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
+// Add license
+
+// romea
 #include <romea_common_utils/params/node_parameters.hpp>
 
-namespace  {
+// std
+#include <memory>
 
-const char FORWARD_SPEED_AXE_MAPPING_PARAM_NAME[] = "joystick_mapping.axes.forward_speed";
-const char BACKWARD_SPEED_AXE_MAPPING_PARAM_NAME[] = "joystick_mapping.axes.backward_speed";
-const char LINEAR_SPEED_AXE_MAPPING_PARAM_NAME[] = "joystick_mapping.axes.linear_speed";
-const char LATERAL_SPEED_AXE_MAPPING_PARAM_NAME[] = "joystick_mapping.axes.lateral_speed";
-const char ANGULAR_SPEED_AXE_MAPPING_PARAM_NAME[] = "joystick_mapping.axes.angular_speed";
-const char STEERING_ANGLE_AXE_MAPPING_PARAM_NAME[] = "joystick_mapping.axes.steering_angle";
+// local
+#include "romea_teleop/joystick_parameters.hpp"
+
+namespace
+{
+
+const char FORWARD_SPEED_AXE_MAPPING_PARAM_NAME[] =
+  "joystick_mapping.axes.forward_speed";
+const char BACKWARD_SPEED_AXE_MAPPING_PARAM_NAME[] =
+  "joystick_mapping.axes.backward_speed";
+const char LINEAR_SPEED_AXE_MAPPING_PARAM_NAME[] =
+  "joystick_mapping.axes.linear_speed";
+const char LATERAL_SPEED_AXE_MAPPING_PARAM_NAME[] =
+  "joystick_mapping.axes.lateral_speed";
+const char ANGULAR_SPEED_AXE_MAPPING_PARAM_NAME[] =
+  "joystick_mapping.axes.angular_speed";
+const char STEERING_ANGLE_AXE_MAPPING_PARAM_NAME[] =
+  "joystick_mapping.axes.steering_angle";
 const char FRONT_STEERING_ANGLE_AXE_MAPPING_PARAM_NAME[] =
   "joystick_mapping.axes.front_steering_angle";
 const char REAR_STEERING_ANGLE_AXE_MAPPING_PARAM_NAME[] =
   "joystick_mapping.axes.rear_steering_angle";
-const char SLOW_MODE_BUTTON_MAPPING_PARAM_NAME[] = "joystick_mapping.buttons.slow_mode";
-const char TURBO_MODE_BUTTON_MAPPING_PARAM_NAME[] = "joystick_mapping.buttons.turbo_mode";
+const char SLOW_MODE_BUTTON_MAPPING_PARAM_NAME[] =
+  "joystick_mapping.buttons.slow_mode";
+const char TURBO_MODE_BUTTON_MAPPING_PARAM_NAME[] =
+  "joystick_mapping.buttons.turbo_mode";
 
 }  // namespace
 
-namespace romea {
-
+namespace romea
+{
 
 
 //-----------------------------------------------------------------------------

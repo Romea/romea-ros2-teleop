@@ -1,24 +1,32 @@
+// Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
+// Add license
+
+// local
 #include "romea_teleop/two_axle_steering_teleop.hpp"
+
+// ros
+#include <rclcpp_components/register_node_macro.hpp>
+
+// std
+#include <map>
+#include <string>
 
 namespace romea
 {
 
 //-----------------------------------------------------------------------------
-TwoAxleSteeringTeleop::TwoAxleSteeringTeleop(const rclcpp::NodeOptions & options):
-  TeleopBase(options),
+TwoAxleSteeringTeleop::TwoAxleSteeringTeleop(const rclcpp::NodeOptions & options)
+: TeleopBase(options),
   maximal_linear_speeds_(),
   maximal_front_steering_angle_(0),
   maximal_rear_steering_angle_(0),
   sent_disable_msg_(false)
 {
-  try
-  {
-   declare_parameters_();
-   init_joystick_();
-   init_command_publisher_();
-  }
-  catch(const std::exception& e)
-  {
+  try {
+    declare_parameters_();
+    init_joystick_();
+    init_command_publisher_();
+  } catch (const std::exception & e) {
     RCLCPP_ERROR_STREAM(node_->get_logger(), e.what());
   }
 }
@@ -59,10 +67,10 @@ void TwoAxleSteeringTeleop::declare_joystick_buttons_mapping_()
 std::map<std::string, int> TwoAxleSteeringTeleop::get_joystick_axes_mapping_()
 {
   return {
-     {"forward_speed", get_forward_speed_axe_mapping(node_)},
-     {"backward_speed", get_backward_speed_axe_mapping(node_)},
-     {"front_steering_angle", get_front_steering_angle_axe_mapping(node_)},
-     {"rear_steering_angle", get_rear_steering_angle_axe_mapping(node_)},
+    {"forward_speed", get_forward_speed_axe_mapping(node_)},
+    {"backward_speed", get_backward_speed_axe_mapping(node_)},
+    {"front_steering_angle", get_front_steering_angle_axe_mapping(node_)},
+    {"rear_steering_angle", get_rear_steering_angle_axe_mapping(node_)},
   };
 }
 
@@ -80,32 +88,30 @@ void TwoAxleSteeringTeleop::joystick_callback_(const Joystick & joy)
 {
   TwoAxleSteeringCommand cmd_msg;
 
-  if (joy.getButtonValue("turbo_mode"))
-  {
-    cmd_msg.longitudinalSpeed = (joy.getAxeValue("forward_speed")-
-      joy.getAxeValue("backward_speed"))*maximal_linear_speeds_.turbo_mode/2;
+  if (joy.getButtonValue("turbo_mode")) {
+    cmd_msg.longitudinalSpeed = (joy.getAxeValue("forward_speed") -
+      joy.getAxeValue("backward_speed")) * maximal_linear_speeds_.turbo_mode / 2;
     cmd_msg.frontSteeringAngle =
-      joy.getAxeValue("front_steering_angle")*maximal_front_steering_angle_;
+      joy.getAxeValue("front_steering_angle") * maximal_front_steering_angle_;
     cmd_msg.rearSteeringAngle =
-      joy.getAxeValue("rear_steering_angle")*maximal_rear_steering_angle_;
+      joy.getAxeValue("rear_steering_angle") * maximal_rear_steering_angle_;
     cmd_pub_->publish(cmd_msg);
     sent_disable_msg_ = false;
   } else if (joy.getButtonValue("slow_mode")) {
-    cmd_msg.longitudinalSpeed = (joy.getAxeValue("forward_speed")-
-      joy.getAxeValue("backward_speed"))*maximal_linear_speeds_.slow_mode/2;
+    cmd_msg.longitudinalSpeed = (joy.getAxeValue("forward_speed") -
+      joy.getAxeValue("backward_speed")) * maximal_linear_speeds_.slow_mode / 2;
     cmd_msg.frontSteeringAngle =
-      joy.getAxeValue("front_steering_angle")*maximal_front_steering_angle_;
+      joy.getAxeValue("front_steering_angle") * maximal_front_steering_angle_;
     cmd_msg.rearSteeringAngle =
-      joy.getAxeValue("rear_steering_angle")*maximal_rear_steering_angle_;
+      joy.getAxeValue("rear_steering_angle") * maximal_rear_steering_angle_;
     cmd_pub_->publish(cmd_msg);
     sent_disable_msg_ = false;
 
-    std::cout <<  cmd_msg << std::endl;
+    std::cout << cmd_msg << std::endl;
   } else {
     // When mode button is released, immediately send a single no-motion command
     // in order to stop the robot.
-    if (!sent_disable_msg_)
-    {
+    if (!sent_disable_msg_) {
       cmd_pub_->publish(cmd_msg);
       sent_disable_msg_ = true;
     }
@@ -114,5 +120,4 @@ void TwoAxleSteeringTeleop::joystick_callback_(const Joystick & joy)
 
 }  // namespace romea
 
-#include <rclcpp_components/register_node_macro.hpp>
 RCLCPP_COMPONENTS_REGISTER_NODE(romea::TwoAxleSteeringTeleop)

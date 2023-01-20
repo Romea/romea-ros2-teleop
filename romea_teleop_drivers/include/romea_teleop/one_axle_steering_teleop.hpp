@@ -1,10 +1,12 @@
-#ifndef ROMEA_TELEOP_ONE_AXLE_STEERING_TELEOP_HPP_
-#define ROMEA_TELEOP_ONE_AXLE_STEERING_TELEOP_HPP_
+// Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
+// Add license
+
+#ifndef ROMEA_TELEOP__ONE_AXLE_STEERING_TELEOP_HPP_
+#define ROMEA_TELEOP__ONE_AXLE_STEERING_TELEOP_HPP_
 
 // std
 #include <map>
 #include <string>
-
 
 // romea
 #include "romea_teleop/teleop_base.hpp"
@@ -44,4 +46,4 @@ private:
 
 }  // namespace romea
 
-#endif  // ROMEA_TELEOP_ONE_AXLE_STEERING_TELEOP_HPP_
+#endif  // ROMEA_TELEOP__ONE_AXLE_STEERING_TELEOP_HPP_
