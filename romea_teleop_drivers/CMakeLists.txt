@@ -61,60 +61,32 @@ ament_target_dependencies(${PROJECT_NAME}
   romea_cmd_mux_utils
   geometry_msgs)
 
-rclcpp_components_register_nodes(${PROJECT_NAME}
-  "romea::SkidSteeringTeleop"
-  "romea::OmniSteeringTeleop"
-  "romea::OneAxleSteeringTeleop"
-  "romea::TwoAxleSteeringTeleop")
+rclcpp_components_register_node(${PROJECT_NAME}
+  PLUGIN romea::SkidSteeringTeleop
+  EXECUTABLE skid_steering_teleop_node
+)
+
+rclcpp_components_register_node(${PROJECT_NAME}
+  PLUGIN romea::OmniSteeringTeleop
+  EXECUTABLE omni_steering_teleop_node
+)
+
+rclcpp_components_register_node(${PROJECT_NAME}
+  PLUGIN romea::OneAxleSteeringTeleop
+  EXECUTABLE one_axle_steering_teleop_node
+)
+
+rclcpp_components_register_node(${PROJECT_NAME}
+  PLUGIN romea::TwoAxleSteeringTeleop
+  EXECUTABLE two_axle_steering_teleop_node
+)
+
 
 install(TARGETS
   ${PROJECT_NAME}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
-
-add_executable(skid_steering_teleop_node src/skid_steering_teleop_node.cpp)
-target_link_libraries(skid_steering_teleop_node ${PROJECT_NAME})
-ament_target_dependencies(skid_steering_teleop_node rclcpp)
-
-add_executable(omni_steering_teleop_node src/omni_steering_teleop_node.cpp)
-target_link_libraries(omni_steering_teleop_node ${PROJECT_NAME})
-ament_target_dependencies(omni_steering_teleop_node rclcpp)
-
-add_executable(one_axle_steering_teleop_node src/one_axle_steering_teleop_node.cpp)
-target_link_libraries(one_axle_steering_teleop_node ${PROJECT_NAME})
-ament_target_dependencies(one_axle_steering_teleop_node rclcpp)
-
-add_executable(two_axle_steering_teleop_node src/two_axle_steering_teleop_node.cpp)
-target_link_libraries(two_axle_steering_teleop_node ${PROJECT_NAME})
-ament_target_dependencies(two_axle_steering_teleop_node rclcpp)
-
-install(TARGETS
-  skid_steering_teleop_node
-  omni_steering_teleop_node
-  one_axle_steering_teleop_node
-  two_axle_steering_teleop_node
-  DESTINATION lib/${PROJECT_NAME})
-
-#ament_export_dependencies(eigen3_cmake_module)
-#ament_export_dependencies(Eigen3)
-#ament_export_dependencies(geometry_msgs)
-#ament_export_dependencies(romea_corecommon)
-#ament_export_dependencies(romea_common_utils)
-#ament_export_dependencies(four_wheel_steering_msgs)
-#ament_export_dependencies(ackermann_msgs)
-#ament_export_dependencies(romea_mobile_base)
-#ament_export_dependencies(romea_mobile_base_msgs)
-#ament_export_dependencies(romea_mobile_base_utils)
-#ament_export_dependencies(romea_localisation_msgs)
-
-#ament_export_include_directories(include)
-#ament_export_libraries(${PROJECT_NAME})
-#ament_export_targets(${PROJECT_NAME})
-
-#install(TARGETS
-# ${PROJECT_NAME}
-# DESTINATION lib/${PROJECT_NAME})
 
 install(
   DIRECTORY launch
