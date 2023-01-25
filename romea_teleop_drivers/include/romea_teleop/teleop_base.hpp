@@ -16,7 +16,7 @@
 
 // romea
 #include "romea_mobile_base_utils/control/command_publisher.hpp"
-#include "romea_cmd_mux_utils / cmd_mux_interface.hpp"
+#include "romea_cmd_mux_utils/cmd_mux_interface.hpp"
 #include "romea_joystick_utils/joystick.hpp"
 
 // local
