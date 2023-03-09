@@ -52,12 +52,9 @@ def launch_setup(context, *args, **kwargs):
     teleop_configuration_filename = get_teleop_configuration_filename(context)
 
     robot_type = base_meta_description.get_type()
-    robot_model = base_meta_description.get_model()
+    robot_model = str(base_meta_description.get_model() or "")
     joystick_type = joystick_meta_description.get_type()
     joystick_driver = joystick_meta_description.get_driver_pkg()
-
-    print("robot_type", robot_type)
-    print("robot_model", robot_model)
 
     teleop = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
