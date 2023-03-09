@@ -1,15 +1,13 @@
 // Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
 // Add license
 
-// local
-#include "romea_teleop/one_axle_steering_teleop.hpp"
-
-// ros
-#include <rclcpp_components/register_node_macro.hpp>
 
 // std
 #include <map>
 #include <string>
+
+// local
+#include "romea_teleop/one_axle_steering_teleop.hpp"
 
 
 namespace romea
@@ -102,4 +100,5 @@ void OneAxleSteeringTeleop::joystick_callback_(const Joystick & joy)
 
 }  // namespace romea
 
+#include "rclcpp_components/register_node_macro.hpp"
 RCLCPP_COMPONENTS_REGISTER_NODE(romea::OneAxleSteeringTeleop)
