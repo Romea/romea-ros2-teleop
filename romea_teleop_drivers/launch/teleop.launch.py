@@ -13,11 +13,11 @@ import yaml
 
 def get_teleop_configuration(context):
 
-    teleop_configuration_filename = LaunchConfiguration(
-        "teleop_configuration_filename"
+    teleop_configuration_file_path = LaunchConfiguration(
+        "teleop_configuration_file_path"
     ).perform(context)
 
-    with open(teleop_configuration_filename) as f:
+    with open(teleop_configuration_file_path) as f:
         return yaml.safe_load(f)
 
 
@@ -44,6 +44,11 @@ def launch_setup(context, *args, **kwargs):
     joystick_type = get_joystick_type(context)
     joystick_driver = get_joystick_driver(context)
     teleop_configuration = get_teleop_configuration(context)
+
+    print("robot_type", robot_type)
+    print("robot_model", robot_model)
+    print("joystick_type", joystick_type)
+    print("joystick_driver", joystick_driver)
 
     mobile_base_info = get_mobile_base_description(robot_type, robot_model)
     teleop_configuration = complete_teleop_configuration(
@@ -77,7 +82,7 @@ def generate_launch_description():
         DeclareLaunchArgument("joystick_driver", default_value="joy")
     )
 
-    declared_arguments.append(DeclareLaunchArgument("teleop_configuration_filename"))
+    declared_arguments.append(DeclareLaunchArgument("teleop_configuration_file_path"))
 
     return LaunchDescription(
         declared_arguments + [OpaqueFunction(function=launch_setup)]

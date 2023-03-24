@@ -25,23 +25,23 @@ def get_robot_namespace(context):
 
 def get_base_meta_description(context):
 
-    base_meta_description_filename = LaunchConfiguration(
-        "base_meta_description_filename"
+    meta_description_file_path = LaunchConfiguration(
+        "base_meta_description_file_path"
     ).perform(context)
 
-    return MobileBaseMetaDescription(base_meta_description_filename)
+    return MobileBaseMetaDescription(meta_description_file_path)
 
 
 def get_joystick_meta_description(context):
-    joystick_meta_description_filename = LaunchConfiguration(
-        "joystick_meta_description_filename"
+    joystick_meta_description_file_path = LaunchConfiguration(
+        "joystick_meta_description_file_path"
     ).perform(context)
 
-    return JoystickMetaDescription(joystick_meta_description_filename)
+    return JoystickMetaDescription(joystick_meta_description_file_path)
 
 
-def get_teleop_configuration_filename(context):
-    return LaunchConfiguration("teleop_configuration_filename").perform(context)
+def get_teleop_configuration_file_path(context):
+    return LaunchConfiguration("teleop_configuration_file_path").perform(context)
 
 
 def launch_setup(context, *args, **kwargs):
@@ -49,12 +49,17 @@ def launch_setup(context, *args, **kwargs):
     robot_namespace = get_robot_namespace(context)
     base_meta_description = get_base_meta_description(context)
     joystick_meta_description = get_joystick_meta_description(context)
-    teleop_configuration_filename = get_teleop_configuration_filename(context)
+    teleop_configuration_file_path = get_teleop_configuration_file_path(context)
 
     robot_type = base_meta_description.get_type()
     robot_model = str(base_meta_description.get_model() or "")
     joystick_type = joystick_meta_description.get_type()
     joystick_driver = joystick_meta_description.get_driver_pkg()
+
+    print("robot_type", robot_type)
+    print("robot_model", robot_model)
+    print("joystick_type", joystick_type)
+    print("joystick_driver", joystick_driver)
 
     teleop = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -66,7 +71,7 @@ def launch_setup(context, *args, **kwargs):
             "robot_model": robot_model,
             "joystick_type": joystick_type,
             "joystick_driver": joystick_driver,
-            "teleop_configuration_filename": teleop_configuration_filename,
+            "teleop_configuration_file_path": teleop_configuration_file_path,
         }.items(),
     )
 
@@ -81,13 +86,13 @@ def generate_launch_description():
 
     declared_arguments.append(DeclareLaunchArgument("robot_namespace"))
 
-    declared_arguments.append(DeclareLaunchArgument("base_meta_description_filename"))
+    declared_arguments.append(DeclareLaunchArgument("base_meta_description_file_path"))
 
     declared_arguments.append(
-        DeclareLaunchArgument("joystick_meta_description_filename")
+        DeclareLaunchArgument("joystick_meta_description_file_path")
     )
 
-    declared_arguments.append(DeclareLaunchArgument("teleop_configuration_filename"))
+    declared_arguments.append(DeclareLaunchArgument("teleop_configuration_file_path"))
 
     return LaunchDescription(
         declared_arguments + [OpaqueFunction(function=launch_setup)]
