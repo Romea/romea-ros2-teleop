@@ -248,7 +248,6 @@ def complete_teleop_configuration(
     teleop_configuration, mobile_base_info, joystick_type, joystick_driver
 ):
 
-    print(teleop_configuration)
     joystick_mapping = get_joystick_mapping(teleop_configuration)
 
     if not joystick_mapping:
