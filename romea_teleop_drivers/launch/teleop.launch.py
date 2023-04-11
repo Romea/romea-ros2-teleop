@@ -45,10 +45,10 @@ def launch_setup(context, *args, **kwargs):
     joystick_driver = get_joystick_driver(context)
     teleop_configuration = get_teleop_configuration(context)
 
-    print("robot_type", robot_type)
-    print("robot_model", robot_model)
-    print("joystick_type", joystick_type)
-    print("joystick_driver", joystick_driver)
+    # print("robot_type", robot_type)
+    # print("robot_model", robot_model)
+    # print("joystick_type", joystick_type)
+    # print("joystick_driver", joystick_driver)
 
     mobile_base_info = get_mobile_base_description(robot_type, robot_model)
     teleop_configuration = complete_teleop_configuration(
