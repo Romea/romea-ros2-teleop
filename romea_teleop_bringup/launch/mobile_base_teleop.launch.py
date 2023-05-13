@@ -27,6 +27,7 @@ from launch.substitutions import LaunchConfiguration
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 
+from romea_common_bringup import device_prefix
 from romea_joystick_bringup import JoystickMetaDescription
 from romea_mobile_base_bringup import MobileBaseMetaDescription
 
@@ -67,6 +68,9 @@ def launch_setup(context, *args, **kwargs):
     robot_model = str(base_meta_description.get_model() or "")
     joystick_type = joystick_meta_description.get_type()
     joystick_driver = joystick_meta_description.get_driver_pkg()
+    joystick_name = joystick_meta_description.get_name()
+    # joystick_namespace = joystick_meta_description.get_namespace()
+    joystick_topic = device_prefix(robot_namespace, None, joystick_name)+"joy"
 
     # print("robot_type", robot_type)
     # print("robot_model", robot_model)
@@ -83,6 +87,7 @@ def launch_setup(context, *args, **kwargs):
             "robot_model": robot_model,
             "joystick_type": joystick_type,
             "joystick_driver": joystick_driver,
+            "joystick_topic": joystick_topic,
             "teleop_configuration_file_path": teleop_configuration_file_path,
         }.items(),
     )

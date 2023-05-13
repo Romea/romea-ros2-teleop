@@ -49,12 +49,17 @@ def get_joystick_driver(context):
     return LaunchConfiguration("joystick_driver").perform(context)
 
 
+def get_joystick_topic(context):
+    return LaunchConfiguration("joystick_topic").perform(context)
+
+
 def launch_setup(context, *args, **kwargs):
 
     robot_type = get_robot_type(context)
     robot_model = get_robot_model(context)
     joystick_type = get_joystick_type(context)
     joystick_driver = get_joystick_driver(context)
+    joystick_topic = get_joystick_topic(context)
     teleop_configuration = get_teleop_configuration(context)
 
     # print("robot_type", robot_type)
@@ -67,14 +72,14 @@ def launch_setup(context, *args, **kwargs):
         teleop_configuration, mobile_base_info, joystick_type, joystick_driver
     )
 
-    print()
-
     teleop = Node(
         package="romea_teleop_drivers",
         executable=get_command_type(mobile_base_info) + "_teleop_node",
         name="teleop",
         parameters=[teleop_configuration],
         output="screen",
+        namespace="base",
+        remappings=[("joystick/joy", joystick_topic)],
     )
 
     return [teleop]
@@ -92,6 +97,10 @@ def generate_launch_description():
 
     declared_arguments.append(
         DeclareLaunchArgument("joystick_driver", default_value="joy")
+    )
+
+    declared_arguments.append(
+        DeclareLaunchArgument("joystick_topic", default_value="joystick/joy")
     )
 
     declared_arguments.append(DeclareLaunchArgument("teleop_configuration_file_path"))
