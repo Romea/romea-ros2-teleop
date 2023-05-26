@@ -78,7 +78,6 @@ def launch_setup(context, *args, **kwargs):
         name="teleop",
         parameters=[teleop_configuration],
         output="screen",
-        namespace="base",
         remappings=[("joystick/joy", joystick_topic)],
     )
 

@@ -64,6 +64,7 @@ def launch_setup(context, *args, **kwargs):
     joystick_meta_description = get_joystick_meta_description(context)
     teleop_configuration_file_path = get_teleop_configuration_file_path(context)
 
+    base_name = base_meta_description.get_name()
     robot_type = base_meta_description.get_type()
     robot_model = str(base_meta_description.get_model() or "")
     joystick_type = joystick_meta_description.get_type()
@@ -92,7 +93,11 @@ def launch_setup(context, *args, **kwargs):
         }.items(),
     )
 
-    actions = [PushRosNamespace(robot_namespace), teleop]
+    actions = [
+        PushRosNamespace(robot_namespace),
+        PushRosNamespace(base_name),
+        teleop
+    ]
 
     return [GroupAction(actions)]
 
