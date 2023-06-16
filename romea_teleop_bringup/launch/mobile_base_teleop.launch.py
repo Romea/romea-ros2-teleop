@@ -22,7 +22,7 @@ from launch.actions import (
     GroupAction,
 )
 
-from launch_ros.actions import PushRosNamespace
+from launch_ros.actions import SetParameter, PushRosNamespace
 from launch.substitutions import LaunchConfiguration
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
@@ -30,6 +30,10 @@ from ament_index_python.packages import get_package_share_directory
 from romea_common_bringup import device_prefix
 from romea_joystick_bringup import JoystickMetaDescription
 from romea_mobile_base_bringup import MobileBaseMetaDescription
+
+
+def get_mode(context):
+    return LaunchConfiguration("mode").perform(context)
 
 
 def get_robot_namespace(context):
@@ -59,6 +63,7 @@ def get_teleop_configuration_file_path(context):
 
 def launch_setup(context, *args, **kwargs):
 
+    mode = get_mode(context)
     robot_namespace = get_robot_namespace(context)
     base_meta_description = get_base_meta_description(context)
     joystick_meta_description = get_joystick_meta_description(context)
@@ -94,6 +99,7 @@ def launch_setup(context, *args, **kwargs):
     )
 
     actions = [
+        SetParameter(name="use_sim_time", value=(mode != "live")),
         PushRosNamespace(robot_namespace),
         PushRosNamespace(base_name),
         teleop
@@ -105,6 +111,8 @@ def launch_setup(context, *args, **kwargs):
 def generate_launch_description():
 
     declared_arguments = []
+
+    declared_arguments.append(DeclareLaunchArgument("mode"))
 
     declared_arguments.append(DeclareLaunchArgument("robot_namespace"))
 
