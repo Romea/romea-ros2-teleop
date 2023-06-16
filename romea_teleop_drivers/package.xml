@@ -3,9 +3,11 @@
 <package format="3">
   <name>romea_teleop_drivers</name>
   <version>0.0.0</version>
-  <description>Romea teleop package</description>
+  <description>Pacakge containing teleop drivers</description>
+
   <maintainer email="jean.laneurit@inrae.fr">Jean Laneurit</maintainer>
-  <license>TODO: License declaration</license>
+
+  <license>Apache License 2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
