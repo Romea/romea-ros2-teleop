@@ -26,7 +26,7 @@
 // local
 #include "../test/test_helper.h"
 #include "testable_teleop.hpp"
-#include "romea_teleop/one_axle_steering_teleop.hpp"
+#include "romea_teleop_drivers/one_axle_steering_teleop.hpp"
 
 using TestableOneAxleSteeringTeleop = TestableTeleop<romea::OneAxleSteeringTeleop>;
 using OneAxleSteeringCommandListener = romea::DataListenerBase<romea::OneAxleSteeringCommand>;

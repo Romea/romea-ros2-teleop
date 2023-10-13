@@ -81,6 +81,20 @@ rclcpp_components_register_node(${PROJECT_NAME}
 )
 
 
+ament_export_dependencies(rclcpp)
+ament_export_dependencies(romea_core_common)
+ament_export_dependencies(romea_core_mobile_base)
+ament_export_dependencies(romea_common_utils)
+ament_export_dependencies(romea_joystick_utils)
+ament_export_dependencies(romea_mobile_base_msgs)
+ament_export_dependencies(romea_mobile_base_utils)
+ament_export_dependencies(romea_cmd_mux_msgs)
+ament_export_dependencies(romea_cmd_mux_utils)
+ament_export_dependencies(geometry_msgs)
+
+ament_export_include_directories(include)
+ament_export_libraries(${PROJECT_NAME})
+
 install(TARGETS
   ${PROJECT_NAME}
   ARCHIVE DESTINATION lib
@@ -91,10 +105,10 @@ install(
   DIRECTORY launch
   DESTINATION share/${PROJECT_NAME})
 
-#install(
-#  DIRECTORY include/
-#  DESTINATION include
-#)
+install(
+ DIRECTORY include/
+ DESTINATION include
+)
 
 #install(
 # TARGETS ${PROJECT_NAME}

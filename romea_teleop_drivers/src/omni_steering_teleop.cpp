@@ -18,7 +18,7 @@
 #include <string>
 
 // local
-#include "romea_teleop/omni_steering_teleop.hpp"
+#include "romea_teleop_drivers/omni_steering_teleop.hpp"
 
 
 namespace romea

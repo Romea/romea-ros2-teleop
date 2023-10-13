@@ -13,27 +13,27 @@
 // limitations under the License.
 
 
-#ifndef ROMEA_TELEOP__ONE_AXLE_STEERING_TELEOP_HPP_
-#define ROMEA_TELEOP__ONE_AXLE_STEERING_TELEOP_HPP_
+#ifndef ROMEA_TELEOP_DRIVERS__SKID_STEERING_TELEOP_HPP_
+#define ROMEA_TELEOP_DRIVERS__SKID_STEERING_TELEOP_HPP_
 
 // std
 #include <map>
 #include <string>
 
 // romea
-#include "romea_teleop/teleop_base.hpp"
+#include "romea_teleop_drivers/teleop_base.hpp"
 
 namespace romea
 {
 
-class OneAxleSteeringTeleop : public TeleopBase<OneAxleSteeringCommand>
+class SkidSteeringTeleop : public TeleopBase<SkidSteeringCommand>
 {
 public:
-  ROMEA_TELEOP_PUBLIC
-  explicit OneAxleSteeringTeleop(const rclcpp::NodeOptions & options);
+  ROMEA_TELEOP_DRIVERS_PUBLIC
+  explicit SkidSteeringTeleop(const rclcpp::NodeOptions & options);
 
-  ROMEA_TELEOP_PUBLIC
-  virtual ~OneAxleSteeringTeleop() = default;
+  ROMEA_TELEOP_DRIVERS_PUBLIC
+  virtual ~SkidSteeringTeleop() = default;
 
 private:
   void declare_joystick_axes_mapping_() override;
@@ -52,10 +52,10 @@ private:
 
 private:
   MaximalSpeeds maximal_linear_speeds_;
-  double maximal_steering_angle_;
+  MaximalSpeeds maximal_angular_speeds_;
   bool sent_disable_msg_;
 };
 
 }  // namespace romea
 
-#endif  // ROMEA_TELEOP__ONE_AXLE_STEERING_TELEOP_HPP_
+#endif  // ROMEA_TELEOP_DRIVERS__SKID_STEERING_TELEOP_HPP_

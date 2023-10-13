@@ -13,8 +13,8 @@
 // limitations under the License.
 
 
-#ifndef ROMEA_TELEOP__JOYSTICK_PARAMETERS_HPP_
-#define ROMEA_TELEOP__JOYSTICK_PARAMETERS_HPP_
+#ifndef ROMEA_TELEOP_DRIVERS__JOYSTICK_PARAMETERS_HPP_
+#define ROMEA_TELEOP_DRIVERS__JOYSTICK_PARAMETERS_HPP_
 
 // std
 #include <string>
@@ -70,4 +70,4 @@ int get_turbo_mode_button_mapping(std::shared_ptr<rclcpp::Node> node);
 
 }  // namespace romea
 
-#endif  // ROMEA_TELEOP__JOYSTICK_PARAMETERS_HPP_
+#endif  // ROMEA_TELEOP_DRIVERS__JOYSTICK_PARAMETERS_HPP_

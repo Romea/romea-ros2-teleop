@@ -32,9 +32,9 @@
 #include "romea_joystick_utils/joystick.hpp"
 
 // local
-#include "romea_teleop/command_parameters.hpp"
-#include "romea_teleop/joystick_parameters.hpp"
-#include "romea_teleop/visibility_control.h"
+#include "romea_teleop_drivers/command_parameters.hpp"
+#include "romea_teleop_drivers/joystick_parameters.hpp"
+#include "romea_teleop_drivers/visibility_control.h"
 
 
 namespace romea
@@ -47,13 +47,13 @@ public:
   using CmdPublisher = PublisherBase<CommandType>;
 
 public:
-  ROMEA_TELEOP_PUBLIC
+  ROMEA_TELEOP_DRIVERS_PUBLIC
   explicit TeleopBase(const rclcpp::NodeOptions & options);
 
-  ROMEA_TELEOP_PUBLIC
+  ROMEA_TELEOP_DRIVERS_PUBLIC
   virtual ~TeleopBase();
 
-  ROMEA_TELEOP_PUBLIC
+  ROMEA_TELEOP_DRIVERS_PUBLIC
   rclcpp::node_interfaces::NodeBaseInterface::SharedPtr
   get_node_base_interface() const;
 
