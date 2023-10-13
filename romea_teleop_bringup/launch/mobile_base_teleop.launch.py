@@ -71,7 +71,8 @@ def launch_setup(context, *args, **kwargs):
 
     base_name = base_meta_description.get_name()
     robot_type = base_meta_description.get_type()
-    robot_model = str(base_meta_description.get_model() or "")
+    robot_model = base_meta_description.get_model()
+    # robot_model = str(base_meta_description.get_model() or "")
     joystick_type = joystick_meta_description.get_type()
     joystick_driver = joystick_meta_description.get_driver_pkg()
     joystick_name = joystick_meta_description.get_name()
@@ -83,19 +84,22 @@ def launch_setup(context, *args, **kwargs):
     # print("joystick_type", joystick_type)
     # print("joystick_driver", joystick_driver)
 
+    launch_arguments = {
+        "joystick_type": joystick_type,
+        "joystick_driver": joystick_driver,
+        "joystick_topic": joystick_topic,
+        "teleop_configuration_file_path": teleop_configuration_file_path,
+    }
+
+    if robot_model is not None:
+        launch_arguments["robot_model"] = robot_model
+
     teleop = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            get_package_share_directory("romea_teleop_drivers")
-            + "/launch/teleop.launch.py"
+            get_package_share_directory(robot_type+"_bringup")
+            + "/launch/"+robot_type+"_teleop.launch.py"
         ),
-        launch_arguments={
-            "robot_type": robot_type,
-            "robot_model": robot_model,
-            "joystick_type": joystick_type,
-            "joystick_driver": joystick_driver,
-            "joystick_topic": joystick_topic,
-            "teleop_configuration_file_path": teleop_configuration_file_path,
-        }.items(),
+        launch_arguments=launch_arguments.items(),
     )
 
     actions = [
