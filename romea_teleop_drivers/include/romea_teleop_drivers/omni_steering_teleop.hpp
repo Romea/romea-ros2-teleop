@@ -13,8 +13,8 @@
 // limitations under the License.
 
 
-#ifndef ROMEA_TELEOP__OMNI_STEERING_TELEOP_HPP_
-#define ROMEA_TELEOP__OMNI_STEERING_TELEOP_HPP_
+#ifndef ROMEA_TELEOP_DRIVERS__OMNI_STEERING_TELEOP_HPP_
+#define ROMEA_TELEOP_DRIVERS__OMNI_STEERING_TELEOP_HPP_
 
 // std
 #include <map>
@@ -59,4 +59,4 @@ private:
 
 }  // namespace romea
 
-#endif  // ROMEA_TELEOP__OMNI_STEERING_TELEOP_HPP_
+#endif  // ROMEA_TELEOP_DRIVERS__OMNI_STEERING_TELEOP_HPP_

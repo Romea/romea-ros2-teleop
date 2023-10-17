@@ -13,8 +13,8 @@
 // limitations under the License.
 
 
-#ifndef ROMEA_TELEOP__TELEOP_BASE_HPP_
-#define ROMEA_TELEOP__TELEOP_BASE_HPP_
+#ifndef ROMEA_TELEOP_DRIVERS__TELEOP_BASE_HPP_
+#define ROMEA_TELEOP_DRIVERS__TELEOP_BASE_HPP_
 
 
 // std
@@ -87,4 +87,4 @@ protected:
 
 }  // namespace romea
 
-#endif  // ROMEA_TELEOP__TELEOP_BASE_HPP_
+#endif  // ROMEA_TELEOP_DRIVERS__TELEOP_BASE_HPP_
