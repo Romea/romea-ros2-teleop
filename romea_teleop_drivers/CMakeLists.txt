@@ -106,8 +106,8 @@ install(
   DESTINATION share/${PROJECT_NAME})
 
 install(
- DIRECTORY include/
- DESTINATION include
+  DIRECTORY include/
+  DESTINATION include
 )
 
 #install(
