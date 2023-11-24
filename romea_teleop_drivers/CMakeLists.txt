@@ -107,8 +107,7 @@ install(
 
 install(
   DIRECTORY include/
-  DESTINATION include
-  )
+  DESTINATION include)
 
 #install(
 # TARGETS ${PROJECT_NAME}
