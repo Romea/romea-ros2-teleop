@@ -25,8 +25,10 @@
 
 namespace romea
 {
+namespace ros2
+{
 
-class TwoAxleSteeringTeleop : public TeleopBase<TwoAxleSteeringCommand>
+class TwoAxleSteeringTeleop : public TeleopBase<core::TwoAxleSteeringCommand>
 {
 public:
   ROMEA_TELEOP_DRIVERS_PUBLIC
@@ -57,6 +59,7 @@ private:
   bool sent_disable_msg_;
 };
 
+}  // namespace ros2
 }  // namespace romea
 
 #endif  // ROMEA_TELEOP_DRIVERS__TWO_AXLE_STEERING_TELEOP_HPP_

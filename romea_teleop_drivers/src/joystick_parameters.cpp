@@ -50,127 +50,130 @@ const char TURBO_MODE_BUTTON_MAPPING_PARAM_NAME[] =
 
 namespace romea
 {
+namespace ros2
+{
 
 
 //-----------------------------------------------------------------------------
 void declare_forward_speed_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  romea::declare_parameter<int>(node, FORWARD_SPEED_AXE_MAPPING_PARAM_NAME);
+  declare_parameter<int>(node, FORWARD_SPEED_AXE_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 void declare_backward_speed_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  romea::declare_parameter<int>(node, BACKWARD_SPEED_AXE_MAPPING_PARAM_NAME);
+  declare_parameter<int>(node, BACKWARD_SPEED_AXE_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 void declare_linear_speed_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  romea::declare_parameter<int>(node, LINEAR_SPEED_AXE_MAPPING_PARAM_NAME);
+  declare_parameter<int>(node, LINEAR_SPEED_AXE_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 void declare_lateral_speed_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  romea::declare_parameter<int>(node, LATERAL_SPEED_AXE_MAPPING_PARAM_NAME);
+  declare_parameter<int>(node, LATERAL_SPEED_AXE_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 void declare_angular_speed_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  romea::declare_parameter<int>(node, ANGULAR_SPEED_AXE_MAPPING_PARAM_NAME);
+  declare_parameter<int>(node, ANGULAR_SPEED_AXE_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 void declare_steering_angle_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  romea::declare_parameter<int>(node, STEERING_ANGLE_AXE_MAPPING_PARAM_NAME);
+  declare_parameter<int>(node, STEERING_ANGLE_AXE_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 void declare_front_steering_angle_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  romea::declare_parameter<int>(node, FRONT_STEERING_ANGLE_AXE_MAPPING_PARAM_NAME);
+  declare_parameter<int>(node, FRONT_STEERING_ANGLE_AXE_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 void declare_rear_steering_angle_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  romea::declare_parameter<int>(node, REAR_STEERING_ANGLE_AXE_MAPPING_PARAM_NAME);
+  declare_parameter<int>(node, REAR_STEERING_ANGLE_AXE_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 void declare_slow_mode_button_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  romea::declare_parameter<int>(node, SLOW_MODE_BUTTON_MAPPING_PARAM_NAME);
+  declare_parameter<int>(node, SLOW_MODE_BUTTON_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 void declare_turbo_mode_button_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  romea::declare_parameter<int>(node, TURBO_MODE_BUTTON_MAPPING_PARAM_NAME);
+  declare_parameter<int>(node, TURBO_MODE_BUTTON_MAPPING_PARAM_NAME);
 }
 
 
 //-----------------------------------------------------------------------------
 int get_forward_speed_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  return romea::get_parameter<int>(node, FORWARD_SPEED_AXE_MAPPING_PARAM_NAME);
+  return get_parameter<int>(node, FORWARD_SPEED_AXE_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 int get_backward_speed_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  return romea::get_parameter<int>(node, BACKWARD_SPEED_AXE_MAPPING_PARAM_NAME);
+  return get_parameter<int>(node, BACKWARD_SPEED_AXE_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 int get_linear_speed_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  return romea::get_parameter<int>(node, LINEAR_SPEED_AXE_MAPPING_PARAM_NAME);
+  return get_parameter<int>(node, LINEAR_SPEED_AXE_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 int get_lateral_speed_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  return romea::get_parameter<int>(node, LATERAL_SPEED_AXE_MAPPING_PARAM_NAME);
+  return get_parameter<int>(node, LATERAL_SPEED_AXE_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 int get_angular_speed_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  return romea::get_parameter<int>(node, ANGULAR_SPEED_AXE_MAPPING_PARAM_NAME);
+  return get_parameter<int>(node, ANGULAR_SPEED_AXE_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 int get_steering_angle_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  return romea::get_parameter<int>(node, STEERING_ANGLE_AXE_MAPPING_PARAM_NAME);
+  return get_parameter<int>(node, STEERING_ANGLE_AXE_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 int get_front_steering_angle_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  return romea::get_parameter<int>(node, FRONT_STEERING_ANGLE_AXE_MAPPING_PARAM_NAME);
+  return get_parameter<int>(node, FRONT_STEERING_ANGLE_AXE_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 int get_rear_steering_angle_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  return romea::get_parameter<int>(node, REAR_STEERING_ANGLE_AXE_MAPPING_PARAM_NAME);
+  return get_parameter<int>(node, REAR_STEERING_ANGLE_AXE_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 int get_slow_mode_button_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  return romea::get_parameter<int>(node, SLOW_MODE_BUTTON_MAPPING_PARAM_NAME);
+  return get_parameter<int>(node, SLOW_MODE_BUTTON_MAPPING_PARAM_NAME);
 }
 
 //-----------------------------------------------------------------------------
 int get_turbo_mode_button_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  return romea::get_parameter<int>(node, TURBO_MODE_BUTTON_MAPPING_PARAM_NAME);
+  return get_parameter<int>(node, TURBO_MODE_BUTTON_MAPPING_PARAM_NAME);
 }
 
+}  // namespace ros2
 }  // namespace romea

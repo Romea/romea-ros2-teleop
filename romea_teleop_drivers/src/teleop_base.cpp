@@ -28,6 +28,8 @@
 
 namespace romea
 {
+namespace ros2
+{
 
 //-----------------------------------------------------------------------------
 template<class CommandType>
@@ -98,9 +100,10 @@ TeleopBase<CommandType>::get_node_base_interface() const
   return node_->get_node_base_interface();
 }
 
-template class TeleopBase<SkidSteeringCommand>;
-template class TeleopBase<OmniSteeringCommand>;
-template class TeleopBase<OneAxleSteeringCommand>;
-template class TeleopBase<TwoAxleSteeringCommand>;
+template class TeleopBase<core::SkidSteeringCommand>;
+template class TeleopBase<core::OmniSteeringCommand>;
+template class TeleopBase<core::OneAxleSteeringCommand>;
+template class TeleopBase<core::TwoAxleSteeringCommand>;
 
+}  // namespace ros2
 }  // namespace romea

@@ -21,6 +21,8 @@
 
 namespace romea
 {
+namespace ros2
+{
 
 //-----------------------------------------------------------------------------
 SkidSteeringTeleop::SkidSteeringTeleop(const rclcpp::NodeOptions & options)
@@ -87,7 +89,7 @@ std::map<std::string, int> SkidSteeringTeleop::get_joystick_buttons_mapping_()
 //-----------------------------------------------------------------------------
 void SkidSteeringTeleop::joystick_callback_(const Joystick & joy)
 {
-  SkidSteeringCommand cmd_msg;
+  core::SkidSteeringCommand cmd_msg;
   if (joy.getButtonValue("turbo_mode")) {
     cmd_msg.longitudinalSpeed = joy.getAxeValue("linear_speed") * maximal_linear_speeds_.turbo_mode;
     cmd_msg.angularSpeed = joy.getAxeValue("angular_speed") * maximal_angular_speeds_.turbo_mode;
@@ -106,7 +108,8 @@ void SkidSteeringTeleop::joystick_callback_(const Joystick & joy)
   }
 }
 
+}  // namespace ros2
 }  // namespace romea
 
 #include "rclcpp_components/register_node_macro.hpp"
-RCLCPP_COMPONENTS_REGISTER_NODE(romea::SkidSteeringTeleop)
+RCLCPP_COMPONENTS_REGISTER_NODE(romea::ros2::SkidSteeringTeleop)

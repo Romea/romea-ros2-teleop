@@ -26,6 +26,8 @@
 
 namespace romea
 {
+namespace ros2
+{
 
 void declare_forward_speed_axe_mapping(std::shared_ptr<rclcpp::Node> node);
 
@@ -68,6 +70,7 @@ int get_slow_mode_button_mapping(std::shared_ptr<rclcpp::Node> node);
 
 int get_turbo_mode_button_mapping(std::shared_ptr<rclcpp::Node> node);
 
+}  // namespace ros2
 }  // namespace romea
 
 #endif  // ROMEA_TELEOP_DRIVERS__JOYSTICK_PARAMETERS_HPP_

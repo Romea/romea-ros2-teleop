@@ -25,8 +25,10 @@
 
 namespace romea
 {
+namespace ros2
+{
 
-class OmniSteeringTeleop : public TeleopBase<OmniSteeringCommand>
+class OmniSteeringTeleop : public TeleopBase<core::OmniSteeringCommand>
 {
 public:
   ROMEA_TELEOP_DRIVERS_PUBLIC
@@ -57,6 +59,7 @@ private:
   bool sent_disable_msg_;
 };
 
+}  // namespace ros2
 }  // namespace romea
 
 #endif  // ROMEA_TELEOP_DRIVERS__OMNI_STEERING_TELEOP_HPP_

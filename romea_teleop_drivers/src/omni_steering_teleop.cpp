@@ -23,6 +23,8 @@
 
 namespace romea
 {
+namespace ros2
+{
 
 //-----------------------------------------------------------------------------
 OmniSteeringTeleop::OmniSteeringTeleop(const rclcpp::NodeOptions & options)
@@ -95,7 +97,7 @@ std::map<std::string, int> OmniSteeringTeleop::get_joystick_buttons_mapping_()
 //-----------------------------------------------------------------------------
 void OmniSteeringTeleop::joystick_callback_(const Joystick & joy)
 {
-  OmniSteeringCommand cmd_msg;
+  core::OmniSteeringCommand cmd_msg;
   if (joy.getButtonValue("turbo_mode")) {
     cmd_msg.longitudinalSpeed = joy.getAxeValue("linear_speed") * maximal_linear_speeds_.turbo_mode;
     cmd_msg.lateralSpeed = joy.getAxeValue("lateral_speed") * maximal_lateral_speeds_.turbo_mode;
@@ -116,7 +118,8 @@ void OmniSteeringTeleop::joystick_callback_(const Joystick & joy)
   }
 }
 
+}  // namespace ros2
 }  // namespace romea
 
 #include "rclcpp_components/register_node_macro.hpp"
-RCLCPP_COMPONENTS_REGISTER_NODE(romea::OmniSteeringTeleop)
+RCLCPP_COMPONENTS_REGISTER_NODE(romea::ros2::OmniSteeringTeleop)

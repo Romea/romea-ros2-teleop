@@ -22,6 +22,8 @@
 
 namespace romea
 {
+namespace ros2
+{
 
 //-----------------------------------------------------------------------------
 TwoAxleSteeringTeleop::TwoAxleSteeringTeleop(const rclcpp::NodeOptions & options)
@@ -95,8 +97,7 @@ std::map<std::string, int> TwoAxleSteeringTeleop::get_joystick_buttons_mapping_(
 //-----------------------------------------------------------------------------
 void TwoAxleSteeringTeleop::joystick_callback_(const Joystick & joy)
 {
-  TwoAxleSteeringCommand cmd_msg;
-
+  core::TwoAxleSteeringCommand cmd_msg;
   if (joy.getButtonValue("turbo_mode")) {
     cmd_msg.longitudinalSpeed = (joy.getAxeValue("forward_speed") -
       joy.getAxeValue("backward_speed")) * maximal_linear_speeds_.turbo_mode / 2;
@@ -125,7 +126,8 @@ void TwoAxleSteeringTeleop::joystick_callback_(const Joystick & joy)
   }
 }
 
+}  // namespace ros2
 }  // namespace romea
 
 #include "rclcpp_components/register_node_macro.hpp"
-RCLCPP_COMPONENTS_REGISTER_NODE(romea::TwoAxleSteeringTeleop)
+RCLCPP_COMPONENTS_REGISTER_NODE(romea::ros2::TwoAxleSteeringTeleop)

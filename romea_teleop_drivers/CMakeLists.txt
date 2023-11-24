@@ -61,22 +61,22 @@ ament_target_dependencies(${PROJECT_NAME}
   geometry_msgs)
 
 rclcpp_components_register_node(${PROJECT_NAME}
-  PLUGIN romea::SkidSteeringTeleop
+  PLUGIN romea::ros2::SkidSteeringTeleop
   EXECUTABLE skid_steering_teleop_node
 )
 
 rclcpp_components_register_node(${PROJECT_NAME}
-  PLUGIN romea::OmniSteeringTeleop
+  PLUGIN romea::ros2::OmniSteeringTeleop
   EXECUTABLE omni_steering_teleop_node
 )
 
 rclcpp_components_register_node(${PROJECT_NAME}
-  PLUGIN romea::OneAxleSteeringTeleop
+  PLUGIN romea::ros2::OneAxleSteeringTeleop
   EXECUTABLE one_axle_steering_teleop_node
 )
 
 rclcpp_components_register_node(${PROJECT_NAME}
-  PLUGIN romea::TwoAxleSteeringTeleop
+  PLUGIN romea::ros2::TwoAxleSteeringTeleop
   EXECUTABLE two_axle_steering_teleop_node
 )
 
@@ -108,7 +108,7 @@ install(
 install(
   DIRECTORY include/
   DESTINATION include
-)
+  )
 
 #install(
 # TARGETS ${PROJECT_NAME}

@@ -39,6 +39,8 @@
 
 namespace romea
 {
+namespace ros2
+{
 
 template<class CommandType>
 class TeleopBase
@@ -85,6 +87,7 @@ protected:
   CmdMuxInterface cmd_mux_client_;
 };
 
+}  // namespace ros2
 }  // namespace romea
 
 #endif  // ROMEA_TELEOP_DRIVERS__TELEOP_BASE_HPP_

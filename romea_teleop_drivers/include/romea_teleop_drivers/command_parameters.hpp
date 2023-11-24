@@ -26,6 +26,8 @@
 
 namespace romea
 {
+namespace ros2
+{
 
 struct MaximalSpeeds
 {
@@ -68,6 +70,7 @@ void declare_command_output_message_priority(std::shared_ptr<rclcpp::Node> node)
 int get_command_output_message_priority(std::shared_ptr<rclcpp::Node> node);
 
 
+}  // namespace ros2
 }  // namespace romea
 
 #endif  // ROMEA_TELEOP_DRIVERS__COMMAND_PARAMETERS_HPP_

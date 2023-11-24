@@ -30,8 +30,8 @@
 #include "testable_teleop.hpp"
 #include "romea_teleop_drivers/omni_steering_teleop.hpp"
 
-using TestableOmniSteeringTeleop = TestableTeleop<romea::OmniSteeringTeleop>;
-using OmniSteeringCommandListener = romea::DataListenerBase<romea::OmniSteeringCommand>;
+using TestableOmniSteeringTeleop = TestableTeleop<romea::ros2::OmniSteeringTeleop>;
+using OmniSteeringCommandListener = romea::ros2::DataListenerBase<romea::core::OmniSteeringCommand>;
 
 class MessageJoystickPublisher
 {
@@ -91,8 +91,8 @@ public:
   template<typename MgsType>
   void make_listener(const std::string & topic_name)
   {
-    cmd_sub = romea::make_data_listener<romea::OmniSteeringCommand, MgsType>(
-      teleop->get_node(), topic_name, romea::best_effort(1));
+    cmd_sub = romea::ros2::make_data_listener<romea::core::OmniSteeringCommand, MgsType>(
+      teleop->get_node(), topic_name, romea::ros2::best_effort(1));
   }
 
   void init()
@@ -109,7 +109,7 @@ public:
     joy_pub = std::make_unique<MessageJoystickPublisher>(
       teleop->get_node(), teleop->get_mapping());
 
-    std::string message_type = romea::get_command_output_message_type(teleop->get_node());
+    std::string message_type = romea::ros2::get_command_output_message_type(teleop->get_node());
 
     if (message_type == "geometry_msgs/Twist") {
       make_listener<geometry_msgs::msg::Twist>("cmd_vel");
