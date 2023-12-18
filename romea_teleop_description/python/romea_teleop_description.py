@@ -57,19 +57,34 @@ def skid_steering_teleop_cmd_range_clamp_(
         user_cmd_range["maximal_linear_speed"].get("slow_mode", sys.float_info.max),
         maximal_linear_speed,
     )
+
     cmd_range["maximal_linear_speed"]["turbo_mode"] = min(
         user_cmd_range["maximal_linear_speed"].get("turbo_mode", sys.float_info.max),
         maximal_linear_speed,
     )
+
     cmd_range["maximal_angular_speed"] = {}
-    cmd_range["maximal_angular_speed"]["slow_mode"] = min(
-        user_cmd_range["maximal_angular_speed"].get("slow_mode", sys.float_info.max),
-        maximal_angular_speed,
-    )
-    cmd_range["maximal_angular_speed"]["turbo_mode"] = min(
-        user_cmd_range["maximal_angular_speed"].get("turbo_mode", sys.float_info.max),
-        maximal_angular_speed,
-    )
+
+    if "maximal_angular_speed" in user_cmd_range:
+        cmd_range["maximal_angular_speed"]["slow_mode"] = min(
+            user_cmd_range["maximal_angular_speed"].get("slow_mode", sys.float_info.max),
+            maximal_angular_speed,
+        )
+        cmd_range["maximal_angular_speed"]["turbo_mode"] = min(
+            user_cmd_range["maximal_angular_speed"].get("turbo_mode", sys.float_info.max),
+            maximal_angular_speed,
+        )
+    else:
+        cmd_range["maximal_angular_speed"]["slow_mode"] = (
+            maximal_angular_speed
+            / maximal_linear_speed
+            * user_cmd_range["maximal_linear_speed"]["slow_mode"]
+        )
+        cmd_range["maximal_angular_speed"]["turbo_mode"] = (
+            maximal_angular_speed
+            / maximal_linear_speed
+            * user_cmd_range["maximal_linear_speed"]["turbo_mode"]
+        )
 
     return cmd_range
 
@@ -153,9 +168,7 @@ def one_axle_steering_teleop_cmd_range_clamp(mobile_base_configuration, user_cmd
     )
 
 
-def two_wheel_steering_teleop_cmd_range_clamp(
-    mobile_base_configuration, user_cmd_range
-):
+def two_wheel_steering_teleop_cmd_range_clamp(mobile_base_configuration, user_cmd_range):
     track = get_track(mobile_base_configuration)
     wheelbase = get_wheelbase(mobile_base_configuration)
     maximal_wheel_angle = get_maximal_wheel_angle(mobile_base_configuration)
@@ -207,9 +220,7 @@ def two_axle_steering_teleop_cmd_range_clamp(mobile_base_configuration, user_cmd
     )
 
 
-def four_wheel_steering_teleop_cmd_range_clamp(
-    mobile_base_configuration, user_cmd_range
-):
+def four_wheel_steering_teleop_cmd_range_clamp(mobile_base_configuration, user_cmd_range):
 
     maximal_wheel_angle = get_maximal_wheel_angle(mobile_base_configuration)
     maximal_linear_speed = get_maximal_linear_speed(mobile_base_configuration)
@@ -263,9 +274,7 @@ def complete_teleop_configuration(
     joystick_mapping = get_joystick_mapping(teleop_configuration)
 
     if not joystick_mapping:
-        joystick_mapping = get_default_joystick_remapping(
-            joystick_type, mobile_base_info
-        )
+        joystick_mapping = get_default_joystick_remapping(joystick_type, mobile_base_info)
 
     teleop_configuration["joystick_mapping"] = joystick_remapping(
         joystick_type, joystick_driver, joystick_mapping
