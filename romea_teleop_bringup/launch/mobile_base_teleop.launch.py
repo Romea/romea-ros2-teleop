@@ -74,7 +74,7 @@ def launch_setup(context, *args, **kwargs):
     robot_model = base_meta_description.get_model()
     # robot_model = str(base_meta_description.get_model() or "")
     joystick_type = joystick_meta_description.get_type()
-    joystick_driver = joystick_meta_description.get_driver_pkg()
+    joystick_driver = joystick_meta_description.get_driver_package()
     joystick_name = joystick_meta_description.get_name()
     # joystick_namespace = joystick_meta_description.get_namespace()
     joystick_topic = device_prefix(robot_namespace, None, joystick_name)+"joy"
