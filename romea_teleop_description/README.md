@@ -1,8 +1,10 @@
+# R Teleop Description
+
 # 1 Overview #
 
 This package contains :
-  - the default remappings between the components of the control messages and the buttons and axes of the joystick 
-  - a python module able to complete and clamp user teleop settings according joystick configuration, default remappings and geometrical and mechanical parameters of the robots in to generate teleop node configuration (see romea_teleop_drivers package).
+  - Default remappings between the components of the control messages and the joystick buttons and axes. 
+  - A Python module able to complete and clamp user teleop settings according joystick configuration, default remappings and geometrical and mechanical parameters of the robots in order to generate teleop node configuration (see romea_teleop_drivers package).
 
 # 2 Example of teleop node configuration generation  #
 
@@ -102,11 +104,11 @@ in order to generate the complete configuration of one axle steering teleop node
       turbo_mode: 5 # id of the joystick button used to get turbo_mode status
 ```
 where : 
-  - maximal_steering_angle has been added and is equal to front_axle_steering_control.command.maximal_angle parameter given in mobile base configuration 
-  - maximal_linear_speed  for turbo mode has been clamped and is equal to rear_wheels_speed_control.maximal_speed parameter given in mobile base configuration  
+  - maximal_steering_angle has been added and is equal to front_axle_steering_control.command.maximal_angle from mobile base configuration 
+  - maximal_linear_speed  for turbo mode has been clamped and is equal to rear_wheels_speed_control.maximal_speed parameter from mobile base configuration  
   - joystick mapping is deduced from joystick configuration and default teleop joystick remappings 
 
 
 
-The complete_teleop_configuration function of romea_teleop_description python module can be used to generate configuration of any kind of romea teleop_drivers nodes. It's possible to see an implementation into romea_teleop_bringup python module.
+The complete_teleop_configuration function of romea_teleop_description Python module can be used to generate configuration of any kind of ROMEA teleop_drivers nodes. It's possible to see an implementation into romea_teleop_bringup python module.
 
