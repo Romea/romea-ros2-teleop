@@ -1,6 +1,6 @@
-# ROMEA Teleop Stack
+# romea_ros2_teleop
 
-This stack contains several ROS2 packages for robot teleoperation, both in real-world applications and simulations. For more detailed information, please refer to the README files of each individual package.
+This project contains several ROS2 packages for robot teleoperation, both in real-world applications and simulations. For more detailed information, please refer to the README files of each individual package.
 
 ## **Usage**
 
@@ -33,8 +33,8 @@ This project is released under the Apache License 2.0. See the LICENSE file for 
 
 ## **Authors**
 
-The Romea Teleop stack was developed by **Jean Laneurit** in the context of various research projects carried out at INRAE.
+The romea_ros2_teleop project was developed by **Jean Laneurit** in the context of various research projects carried out at INRAE.
 
 ## **Contact**
 
-If you have any questions or comments about Romea Teleop stack, please contact **[Jean Laneurit](mailto:jean.laneurit@inrae.fr)** 
+If you have any questions or comments about romea_ros2_teleop project, please contact **[Jean Laneurit](mailto:jean.laneurit@inrae.fr)** 
