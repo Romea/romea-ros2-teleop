@@ -87,7 +87,7 @@ void TeleopBase<CommandType>::init_command_publisher_()
   cmd_pub_->activate();
 
   if (priority != -1) {
-    cmd_mux_client_.subscribe(cmd_pub_->get_topic_name(), priority, 0.05);
+    cmd_mux_client_.subscribe(cmd_pub_->get_topic_name(), priority, 0.2);
   }
 }
 
