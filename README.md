@@ -1,18 +1,16 @@
-# romea_ros2_teleop
+# romea_ros2_teleop #
 
-This project contains several ROS2 packages for robot teleoperation, both in real-world applications and simulations. For more detailed information, please refer to the README files of each individual package.
+This project contains several ROS2 packages for working with GPS receivers, both in real-world applications and simulations. For more detailed information, please refer to the README files of each individual package.
 
 ## **Usage**
 
 1. create a ROS workspace
 2. cd worskpace
 3. mkdir src
-4. wget https://raw.githubusercontent.com/Romea/romea-ros2-teleop/refs/heads/main/romea_teleop_public.repos
-5. vcs import src < romea_teleop_public.repos
-6. build packages
-   - catkin build for ROS1
-   - colcon build for ROS2
-7. see bringup package to launch teleop node
+4. wget https://raw.githubusercontent.com/Romea/romea-ros2-gps/refs/heads/main/romea_gps_public.repos
+5. vcs import src < romea_gps_public.repos
+6. colcon build
+7. see bringup package to launch gps
 
 ## **Contributing**
 
@@ -33,8 +31,8 @@ This project is released under the Apache License 2.0. See the LICENSE file for 
 
 ## **Authors**
 
-The romea_ros2_teleop project was developed by **Jean Laneurit** in the context of various research projects carried out at INRAE.
+The Romea ROS2 GPS stack was developed by **Jean Laneurit** in the context of various research projects carried out at INRAE.
 
 ## **Contact**
 
-If you have any questions or comments about romea_ros2_teleop project, please contact **[Jean Laneurit](mailto:jean.laneurit@inrae.fr)** 
+If you have any questions or comments about Romea ROS2 GPS stack, please contact **[Jean Laneurit](mailto:jean.laneurit@inrae.fr)** 
