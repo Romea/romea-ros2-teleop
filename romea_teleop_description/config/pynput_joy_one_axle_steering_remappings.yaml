@@ -1,0 +1,5 @@
+axes:
+  linear_speed: linear
+  steering_angle: angular
+buttons:
+  turbo_mode: alt
