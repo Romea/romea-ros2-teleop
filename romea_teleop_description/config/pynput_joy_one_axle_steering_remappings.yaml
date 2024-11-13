@@ -2,4 +2,5 @@ axes:
   linear_speed: linear
   steering_angle: angular
 buttons:
-  turbo_mode: alt
+  slow_mode: key_w
+  turbo_mode: key_x
