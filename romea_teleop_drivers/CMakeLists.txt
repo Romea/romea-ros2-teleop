@@ -36,6 +36,7 @@ add_library(${PROJECT_NAME} SHARED
   src/one_axle_steering_teleop.cpp
   src/two_axle_steering_teleop.cpp
   src/teleop_base.cpp
+  src/implement_teleop.cpp
   src/command_parameters.cpp
   src/joystick_parameters.cpp)
 
@@ -80,6 +81,10 @@ rclcpp_components_register_node(${PROJECT_NAME}
   EXECUTABLE two_axle_steering_teleop_node
 )
 
+rclcpp_components_register_node(${PROJECT_NAME}
+  PLUGIN romea::ros2::ImplementTeleop
+  EXECUTABLE implement_teleop_node
+)
 
 ament_export_dependencies(rclcpp)
 ament_export_dependencies(romea_core_common)

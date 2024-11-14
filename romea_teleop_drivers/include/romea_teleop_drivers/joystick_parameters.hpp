@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-
 #ifndef ROMEA_TELEOP_DRIVERS__JOYSTICK_PARAMETERS_HPP_
 #define ROMEA_TELEOP_DRIVERS__JOYSTICK_PARAMETERS_HPP_
 
@@ -22,7 +21,6 @@
 
 // ros
 #include "rclcpp/rclcpp.hpp"
-
 
 namespace romea
 {
@@ -49,6 +47,9 @@ void declare_slow_mode_button_mapping(std::shared_ptr<rclcpp::Node> node);
 
 void declare_turbo_mode_button_mapping(std::shared_ptr<rclcpp::Node> node);
 
+void declare_down_implement_button_mapping(std::shared_ptr<rclcpp::Node> node);
+
+void declare_up_implement_button_mapping(std::shared_ptr<rclcpp::Node> node);
 
 int get_backward_speed_axe_mapping(std::shared_ptr<rclcpp::Node> node);
 
@@ -69,6 +70,10 @@ int get_rear_steering_angle_axe_mapping(std::shared_ptr<rclcpp::Node> node);
 int get_slow_mode_button_mapping(std::shared_ptr<rclcpp::Node> node);
 
 int get_turbo_mode_button_mapping(std::shared_ptr<rclcpp::Node> node);
+
+int get_down_implement_button_mapping(std::shared_ptr<rclcpp::Node> node);
+
+int get_up_implement_button_mapping(std::shared_ptr<rclcpp::Node> node);
 
 }  // namespace ros2
 }  // namespace romea
