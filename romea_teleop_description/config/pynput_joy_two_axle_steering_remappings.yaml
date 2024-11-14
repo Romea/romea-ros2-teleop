@@ -1,8 +1,8 @@
 axes:
-  forward_speed: linear
-  backward_speed: fake
-  front_steering_angle: angular
-  rear_steering_angle: angular_rear
+  forward_speed: up_down
+  backward_speed: up_down_inverse
+  front_steering_angle: left_right
+  rear_steering_angle: left_right_inverse
 buttons:
   slow_mode: key_w
   turbo_mode: key_x
