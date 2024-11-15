@@ -47,6 +47,8 @@ void declare_slow_mode_button_mapping(std::shared_ptr<rclcpp::Node> node);
 
 void declare_turbo_mode_button_mapping(std::shared_ptr<rclcpp::Node> node);
 
+void declare_up_down_implement_axe_mapping(std::shared_ptr<rclcpp::Node> node);
+
 void declare_down_implement_button_mapping(std::shared_ptr<rclcpp::Node> node);
 
 void declare_up_implement_button_mapping(std::shared_ptr<rclcpp::Node> node);
@@ -70,6 +72,8 @@ int get_rear_steering_angle_axe_mapping(std::shared_ptr<rclcpp::Node> node);
 int get_slow_mode_button_mapping(std::shared_ptr<rclcpp::Node> node);
 
 int get_turbo_mode_button_mapping(std::shared_ptr<rclcpp::Node> node);
+
+int get_up_down_implement_axe_mapping(std::shared_ptr<rclcpp::Node> node);
 
 int get_down_implement_button_mapping(std::shared_ptr<rclcpp::Node> node);
 

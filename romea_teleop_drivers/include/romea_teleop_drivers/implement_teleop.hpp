@@ -60,7 +60,7 @@ protected:
 
   void joystick_callback_(const Joystick& joy);
 
-  void declare_joystick_buttons_mapping_();
+  std::map<std::string, int> get_joystick_axes_mapping_();
 
   std::map<std::string, int> get_joystick_buttons_mapping_();
 

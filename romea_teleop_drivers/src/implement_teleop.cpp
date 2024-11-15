@@ -46,14 +46,17 @@ ImplementTeleop::~ImplementTeleop()
 
 void ImplementTeleop::declare_parameters_()
 {
-  declare_joystick_buttons_mapping_();
+  declare_up_down_implement_axe_mapping(node_);
+  declare_down_implement_button_mapping(node_);
+  declare_up_implement_button_mapping(node_);
 }
 
 void ImplementTeleop::init_joystick_()
 {
   cmd_msg_.data.push_back(0.);
+  auto axes_mapping = get_joystick_axes_mapping_();
   auto buttons_mapping = get_joystick_buttons_mapping_();
-  joy_ = std::make_unique<Joystick>(node_, buttons_mapping);
+  joy_ = std::make_unique<Joystick>(node_, axes_mapping, buttons_mapping);
 
   auto callback = std::bind(&ImplementTeleop::joystick_callback_, this, std::placeholders::_1);
   joy_->registerOnReceivedMsgCallback(std::move(callback));
@@ -64,10 +67,9 @@ rclcpp::node_interfaces::NodeBaseInterface::SharedPtr ImplementTeleop::get_node_
   return node_->get_node_base_interface();
 }
 
-void ImplementTeleop::declare_joystick_buttons_mapping_()
+std::map<std::string, int> ImplementTeleop::get_joystick_axes_mapping_()
 {
-  declare_down_implement_button_mapping(node_);
-  declare_up_implement_button_mapping(node_);
+  return { { "up_down_implement", get_up_down_implement_axe_mapping(node_) } };
 }
 
 std::map<std::string, int> ImplementTeleop::get_joystick_buttons_mapping_()
@@ -78,13 +80,13 @@ std::map<std::string, int> ImplementTeleop::get_joystick_buttons_mapping_()
 
 void ImplementTeleop::joystick_callback_(const Joystick& joy)
 {
-  if (joy.getButtonValue("down_implement"))
+  if (joy.getButtonValue("down_implement") || joy.getAxeValue("up_down_implement") < -0.5)
   {
     cmd_msg_.data[0] += increment_position_;
     cmd_msg_.data[0] = std::min(cmd_msg_.data[0], 1.);
     cmd_pub_->publish(cmd_msg_);
   }
-  else if (joy.getButtonValue("up_implement"))
+  else if (joy.getButtonValue("up_implement") || joy.getAxeValue("up_down_implement") > 0.5)
   {
     cmd_msg_.data[0] -= increment_position_;
     cmd_msg_.data[0] = std::max(cmd_msg_.data[0], 0.);
