@@ -1,5 +1,4 @@
-// Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
-// Copyright 2022 INRAE, French National Research Institute for Agriculture, Food and Environment
+// Copyright 2024 INRAE, French National Research Institute for Agriculture, Food and Environment
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,10 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 #pragma once
-
-// ros2 topic pub /forward_position_controller/commands std_msgs/msg/Float64MultiArray "data:
-// - 0.5
-// - 0.5"
 
 // std
 #include <map>
