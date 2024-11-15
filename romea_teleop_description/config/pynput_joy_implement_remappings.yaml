@@ -1,0 +1,5 @@
+axes:
+  linear_speed: up_down
+buttons:
+  down_implement: key_q
+  up_implement: key_s

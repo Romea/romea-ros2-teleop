@@ -32,7 +32,7 @@ ImplementTeleop::ImplementTeleop(const rclcpp::NodeOptions& options)
   {
     declare_parameters_();
     init_joystick_();
-    cmd_pub_ = node_->create_publisher<std_msgs::msg::Float64MultiArray>("command", 10);
+    cmd_pub_ = node_->create_publisher<std_msgs::msg::Float64MultiArray>("position_controller/commands", 10);
   }
   catch (const std::exception& e)
   {
