@@ -108,19 +108,19 @@ void declare_turbo_mode_button_mapping(std::shared_ptr<rclcpp::Node> node)
 //-----------------------------------------------------------------------------
 void declare_up_down_implement_axe_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  declare_parameter<int>(node, UP_DOWN_IMPLEMENT_AXE_MAPPING_PARAM_NAME);
+  declare_parameter_with_default<int>(node, UP_DOWN_IMPLEMENT_AXE_MAPPING_PARAM_NAME, -1);
 }
 
 //-----------------------------------------------------------------------------
 void declare_down_implement_button_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  declare_parameter<int>(node, DOWN_IMPLEMENT_BUTTON_MAPPING_PARAM_NAME);
+  declare_parameter_with_default<int>(node, DOWN_IMPLEMENT_BUTTON_MAPPING_PARAM_NAME, -1);
 }
 
 //-----------------------------------------------------------------------------
 void declare_up_implement_button_mapping(std::shared_ptr<rclcpp::Node> node)
 {
-  declare_parameter<int>(node, UP_IMPLEMENT_BUTTON_MAPPING_PARAM_NAME);
+  declare_parameter_with_default<int>(node, UP_IMPLEMENT_BUTTON_MAPPING_PARAM_NAME, -1);
 }
 
 //-----------------------------------------------------------------------------
