@@ -247,6 +247,19 @@ def get_default_joystick_remapping(joystick_type, mobile_base_configuration):
         return yaml.safe_load(f)
 
 
+def get_default_joystick_implement_remapping(joystick_type):
+
+    default_joystick_remapping_yaml_file = (
+        get_package_share_directory("romea_teleop_description")
+        + "/config/"
+        + joystick_type
+        + "_implement_remappings.yaml"
+    )
+
+    with open(default_joystick_remapping_yaml_file) as f:
+        return yaml.safe_load(f)
+
+
 def cmd_range_clamp(mobile_base_info, cmd_range):
 
     kinematic_type = get_kinematic_type(mobile_base_info)
