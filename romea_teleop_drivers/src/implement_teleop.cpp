@@ -25,17 +25,16 @@ namespace romea
 namespace ros2
 {
 
-ImplementTeleop::ImplementTeleop(const rclcpp::NodeOptions& options)
-  : node_(std::make_shared<rclcpp::Node>("implement_teleop", options)), joy_(nullptr), cmd_pub_(nullptr)
+ImplementTeleop::ImplementTeleop(const rclcpp::NodeOptions & options)
+: node_(std::make_shared<rclcpp::Node>("implement_teleop", options)), joy_(nullptr), cmd_pub_(
+    nullptr)
 {
-  try
-  {
+  try {
     declare_parameters_();
     init_joystick_();
-    cmd_pub_ = node_->create_publisher<std_msgs::msg::Float64MultiArray>("position_controller/commands", 10);
-  }
-  catch (const std::exception& e)
-  {
+    cmd_pub_ = node_->create_publisher<std_msgs::msg::Float64MultiArray>(
+      "position_controller/commands", 10);
+  } catch (const std::exception & e) {
     RCLCPP_ERROR_STREAM(node_->get_logger(), e.what());
   }
 }
@@ -62,32 +61,30 @@ void ImplementTeleop::init_joystick_()
   joy_->registerOnReceivedMsgCallback(std::move(callback));
 }
 
-rclcpp::node_interfaces::NodeBaseInterface::SharedPtr ImplementTeleop::get_node_base_interface() const
+rclcpp::node_interfaces::NodeBaseInterface::SharedPtr ImplementTeleop::get_node_base_interface()
+const
 {
   return node_->get_node_base_interface();
 }
 
 std::map<std::string, int> ImplementTeleop::get_joystick_axes_mapping_()
 {
-  return { { "up_down_implement", get_up_down_implement_axe_mapping(node_) } };
+  return {{"up_down_implement", get_up_down_implement_axe_mapping(node_)}};
 }
 
 std::map<std::string, int> ImplementTeleop::get_joystick_buttons_mapping_()
 {
-  return { { "down_implement", get_down_implement_button_mapping(node_) },
-           { "up_implement", get_up_implement_button_mapping(node_) } };
+  return {{"down_implement", get_down_implement_button_mapping(node_)},
+    {"up_implement", get_up_implement_button_mapping(node_)}};
 }
 
-void ImplementTeleop::joystick_callback_(const Joystick& joy)
+void ImplementTeleop::joystick_callback_(const Joystick & joy)
 {
-  if (joy.getButtonValue("down_implement") || joy.getAxeValue("up_down_implement") < -0.5)
-  {
+  if (joy.getButtonValue("down_implement") || joy.getAxeValue("up_down_implement") < -0.5) {
     cmd_msg_.data[0] += increment_position_;
     cmd_msg_.data[0] = std::min(cmd_msg_.data[0], 1.);
     cmd_pub_->publish(cmd_msg_);
-  }
-  else if (joy.getButtonValue("up_implement") || joy.getAxeValue("up_down_implement") > 0.5)
-  {
+  } else if (joy.getButtonValue("up_implement") || joy.getAxeValue("up_down_implement") > 0.5) {
     cmd_msg_.data[0] -= increment_position_;
     cmd_msg_.data[0] = std::max(cmd_msg_.data[0], 0.);
     cmd_pub_->publish(cmd_msg_);

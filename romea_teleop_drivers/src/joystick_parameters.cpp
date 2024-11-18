@@ -30,8 +30,10 @@ const char LINEAR_SPEED_AXE_MAPPING_PARAM_NAME[] = "joystick_mapping.axes.linear
 const char LATERAL_SPEED_AXE_MAPPING_PARAM_NAME[] = "joystick_mapping.axes.lateral_speed";
 const char ANGULAR_SPEED_AXE_MAPPING_PARAM_NAME[] = "joystick_mapping.axes.angular_speed";
 const char STEERING_ANGLE_AXE_MAPPING_PARAM_NAME[] = "joystick_mapping.axes.steering_angle";
-const char FRONT_STEERING_ANGLE_AXE_MAPPING_PARAM_NAME[] = "joystick_mapping.axes.front_steering_angle";
-const char REAR_STEERING_ANGLE_AXE_MAPPING_PARAM_NAME[] = "joystick_mapping.axes.rear_steering_angle";
+const char FRONT_STEERING_ANGLE_AXE_MAPPING_PARAM_NAME[] =
+  "joystick_mapping.axes.front_steering_angle";
+const char REAR_STEERING_ANGLE_AXE_MAPPING_PARAM_NAME[] =
+  "joystick_mapping.axes.rear_steering_angle";
 const char UP_DOWN_IMPLEMENT_AXE_MAPPING_PARAM_NAME[] = "joystick_mapping.axes.up_down_implement";
 const char SLOW_MODE_BUTTON_MAPPING_PARAM_NAME[] = "joystick_mapping.buttons.slow_mode";
 const char TURBO_MODE_BUTTON_MAPPING_PARAM_NAME[] = "joystick_mapping.buttons.turbo_mode";
