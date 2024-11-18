@@ -31,10 +31,13 @@ TwoAxleSteeringTeleop::TwoAxleSteeringTeleop(const rclcpp::NodeOptions & options
   maximal_linear_speeds_(),
   maximal_front_steering_angle_(0),
   maximal_rear_steering_angle_(0),
+  two_axes_linear_speed_control_(false),
+  two_axes_steering_angle_control_(false),
   sent_disable_msg_(false)
 {
   try {
     declare_parameters_();
+    init_axes_control_modes_();
     init_joystick_();
     init_command_publisher_();
   } catch (const std::exception & e) {
@@ -95,25 +98,58 @@ std::map<std::string, int> TwoAxleSteeringTeleop::get_joystick_buttons_mapping_(
 }
 
 //-----------------------------------------------------------------------------
+void TwoAxleSteeringTeleop::init_axes_control_modes_()
+{
+  auto axes_mapping = get_joystick_axes_mapping_();
+  two_axes_linear_speed_control_ =
+    axes_mapping["forwad_speed"] != axes_mapping["backward_speed"];
+  two_axes_steering_angle_control_ =
+    axes_mapping["front_steering_angle"] != axes_mapping["rear_steering_angle"];
+
+}
+
+//-----------------------------------------------------------------------------
+double TwoAxleSteeringTeleop::compute_linear_speed_(const double & maximal_linear_speed)const
+{
+  if (two_axes_steering_angle_control_) {
+    return (joy_->getAxeValue("forward_speed") - joy_->getAxeValue("backward_speed")) *
+           maximal_linear_speed / 2;
+  } else {
+    return (joy_->getAxeValue("forward_speed") + joy_->getAxeValue("backward_speed")) *
+           maximal_linear_speed / 2;
+  }
+}
+
+//-----------------------------------------------------------------------------
+double TwoAxleSteeringTeleop::compute_front_steering_angle_() const
+{
+  return joy_->getAxeValue("front_steering_angle") * maximal_front_steering_angle_;
+}
+
+//-----------------------------------------------------------------------------
+double TwoAxleSteeringTeleop::compute_rear_steering_angle_() const
+{
+  if (two_axes_steering_angle_control_) {
+    return joy_->getAxeValue("rear_steering_angle") * maximal_rear_steering_angle_;
+  } else {
+    return -joy_->getAxeValue("rear_steering_angle") * maximal_rear_steering_angle_;
+  }
+}
+
+//-----------------------------------------------------------------------------
 void TwoAxleSteeringTeleop::joystick_callback_(const Joystick & joy)
 {
   core::TwoAxleSteeringCommand cmd_msg;
   if (joy.getButtonValue("turbo_mode")) {
-    cmd_msg.longitudinalSpeed = (joy.getAxeValue("forward_speed") -
-      joy.getAxeValue("backward_speed")) * maximal_linear_speeds_.turbo_mode / 2;
-    cmd_msg.frontSteeringAngle =
-      joy.getAxeValue("front_steering_angle") * maximal_front_steering_angle_;
-    cmd_msg.rearSteeringAngle =
-      joy.getAxeValue("rear_steering_angle") * maximal_rear_steering_angle_;
+    cmd_msg.longitudinalSpeed = compute_linear_speed_(maximal_linear_speeds_.turbo_mode);
+    cmd_msg.frontSteeringAngle = compute_front_steering_angle_();
+    cmd_msg.rearSteeringAngle = compute_rear_steering_angle_();
     cmd_pub_->publish(cmd_msg);
     sent_disable_msg_ = false;
   } else if (joy.getButtonValue("slow_mode")) {
-    cmd_msg.longitudinalSpeed = (joy.getAxeValue("forward_speed") -
-      joy.getAxeValue("backward_speed")) * maximal_linear_speeds_.slow_mode / 2;
-    cmd_msg.frontSteeringAngle =
-      joy.getAxeValue("front_steering_angle") * maximal_front_steering_angle_;
-    cmd_msg.rearSteeringAngle =
-      joy.getAxeValue("rear_steering_angle") * maximal_rear_steering_angle_;
+    cmd_msg.longitudinalSpeed = compute_linear_speed_(maximal_linear_speeds_.slow_mode);
+    cmd_msg.frontSteeringAngle = compute_front_steering_angle_();
+    cmd_msg.rearSteeringAngle = compute_rear_steering_angle_();
     cmd_pub_->publish(cmd_msg);
     sent_disable_msg_ = false;
   } else {

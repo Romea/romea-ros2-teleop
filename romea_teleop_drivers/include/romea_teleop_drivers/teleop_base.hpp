@@ -85,6 +85,7 @@ protected:
   std::unique_ptr<Joystick> joy_;
   std::shared_ptr<CmdPublisher> cmd_pub_;
   CmdMuxInterface cmd_mux_client_;
+  bool is_connected_to_cmd_mux_;
 };
 
 }  // namespace ros2

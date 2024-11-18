@@ -87,17 +87,29 @@ std::map<std::string, int> SkidSteeringTeleop::get_joystick_buttons_mapping_()
 }
 
 //-----------------------------------------------------------------------------
+double SkidSteeringTeleop::compute_linear_speed_(const double & maximal_linear_speed) const
+{
+  return joy_->getAxeValue("linear_speed") * maximal_linear_speed;
+}
+
+//-----------------------------------------------------------------------------
+double SkidSteeringTeleop::compute_angular_speed_(const double & maximal_angular_speed) const
+{
+  return joy_->getAxeValue("angular_speed") * maximal_angular_speed;
+}
+
+//-----------------------------------------------------------------------------
 void SkidSteeringTeleop::joystick_callback_(const Joystick & joy)
 {
   core::SkidSteeringCommand cmd_msg;
   if (joy.getButtonValue("turbo_mode")) {
-    cmd_msg.longitudinalSpeed = joy.getAxeValue("linear_speed") * maximal_linear_speeds_.turbo_mode;
-    cmd_msg.angularSpeed = joy.getAxeValue("angular_speed") * maximal_angular_speeds_.turbo_mode;
+    cmd_msg.longitudinalSpeed = compute_linear_speed_(maximal_linear_speeds_.turbo_mode);
+    cmd_msg.angularSpeed = compute_angular_speed_(maximal_angular_speeds_.turbo_mode);
     cmd_pub_->publish(cmd_msg);
     sent_disable_msg_ = false;
   } else if (joy.getButtonValue("slow_mode")) {
-    cmd_msg.longitudinalSpeed = joy.getAxeValue("linear_speed") * maximal_linear_speeds_.slow_mode;
-    cmd_msg.angularSpeed = joy.getAxeValue("angular_speed") * maximal_angular_speeds_.slow_mode;
+    cmd_msg.longitudinalSpeed = compute_linear_speed_(maximal_linear_speeds_.slow_mode);
+    cmd_msg.angularSpeed = compute_angular_speed_(maximal_angular_speeds_.slow_mode);
     cmd_pub_->publish(cmd_msg);
     sent_disable_msg_ = false;
   } else {

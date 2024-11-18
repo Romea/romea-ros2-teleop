@@ -22,6 +22,7 @@
 #include "gtest/gtest.h"
 
 // romea
+#include "romea_mobile_base_utils/conversions/command_conversions.hpp"
 #include "romea_common_utils/listeners/data_listener.hpp"
 
 
@@ -112,9 +113,10 @@ public:
     std::string message_type = romea::ros2::get_command_output_message_type(teleop->get_node());
 
     if (message_type == "geometry_msgs/Twist") {
-      make_listener<geometry_msgs::msg::Twist>("cmd_vel");
+      make_listener<geometry_msgs::msg::Twist>("/teleop_node/cmd_vel");
     } else if (message_type == "romea_mobile_base_msgs/OmniSteeringCommand") {
-      make_listener<romea_mobile_base_msgs::msg::OmniSteeringCommand>("cmd_omni_steering");
+      make_listener<romea_mobile_base_msgs::msg::OmniSteeringCommand>(
+        "/teleop_node/cmd_omni_steering");
     }
   }
 

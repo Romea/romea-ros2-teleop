@@ -52,10 +52,20 @@ private:
 
   void joystick_callback_(const Joystick & joy)override;
 
+  double compute_linear_speed_(const double & maximal_linear_speed) const;
+
+  double compute_front_steering_angle_() const;
+
+  double compute_rear_steering_angle_() const;
+
+  void init_axes_control_modes_();
+
 private:
   MaximalSpeeds maximal_linear_speeds_;
   double maximal_front_steering_angle_;
   double maximal_rear_steering_angle_;
+  bool two_axes_linear_speed_control_;
+  bool two_axes_steering_angle_control_;
   bool sent_disable_msg_;
 };
 

@@ -21,6 +21,7 @@
 #include "gtest/gtest.h"
 
 // romea
+#include "romea_mobile_base_utils/conversions/command_conversions.hpp"
 #include "romea_common_utils/listeners/data_listener.hpp"
 
 // local
@@ -69,10 +70,10 @@ private:
 };
 
 
-class TestTwoAxleSteeringTeleop : public ::testing::Test
+class TestTwoAxleSteeringTeleop4Axes : public ::testing::Test
 {
 public:
-  TestTwoAxleSteeringTeleop()
+  TestTwoAxleSteeringTeleop4Axes()
   : teleop(),
     joy_pub(),
     cmd_sub()
@@ -103,7 +104,7 @@ public:
     no.arguments(
       {"--ros-args",
         "--params-file",
-        std::string(TEST_DIR) + "/two_axle_steering_teleop.yaml"});
+        std::string(TEST_DIR) + "/two_axle_steering_teleop_4_axes.yaml"});
 
     teleop = std::make_unique<TestableTwoAxleSteeringTeleop>(no);
 
@@ -114,10 +115,10 @@ public:
     std::string message_type = romea::ros2::get_command_output_message_type(teleop->get_node());
 
     if (message_type == "four_wheel_steering_msgs/FourWheelSteering") {
-      return make_listener<four_wheel_steering_msgs::msg::FourWheelSteering>("cmd_4ws");
+      return make_listener<four_wheel_steering_msgs::msg::FourWheelSteering>("/teleop_node/cmd_4ws");
     } else if (message_type == "romea_mobile_base_msgs/TwoAxleSteeringCommand") {
       return make_listener<romea_mobile_base_msgs::msg::TwoAxleSteeringCommand>(
-        "cmd_two_axle_steering");
+        "/teleop_node/cmd_two_axle_steering");
     }
   }
 
@@ -148,7 +149,7 @@ public:
   std::shared_ptr<TwoAxleSteeringCommandListener> cmd_sub;
 };
 
-TEST_F(TestTwoAxleSteeringTeleop, testSlowMode)
+TEST_F(TestTwoAxleSteeringTeleop4Axes, testSlowMode)
 {
   init();
   sendJoyMsgAndWait(1.0, -1.0, 1.0, 1.0, 1, 0);
@@ -158,7 +159,7 @@ TEST_F(TestTwoAxleSteeringTeleop, testSlowMode)
   EXPECT_DOUBLE_EQ(cmd_sub->get_data().rearSteeringAngle, 4.0);
 }
 
-TEST_F(TestTwoAxleSteeringTeleop, testTurboMode)
+TEST_F(TestTwoAxleSteeringTeleop4Axes, testTurboMode)
 {
   init();
   sendJoyMsgAndWait(-1.0, 1.0, -1.0, -1.0, 0, 1);
@@ -168,7 +169,7 @@ TEST_F(TestTwoAxleSteeringTeleop, testTurboMode)
   EXPECT_DOUBLE_EQ(cmd_sub->get_data().rearSteeringAngle, -4.0);
 }
 
-TEST_F(TestTwoAxleSteeringTeleop, testNoCmd)
+TEST_F(TestTwoAxleSteeringTeleop4Axes, testNoCmd)
 {
   init();
   sendJoyMsgAndWait(1.0, 1.0, 1.0, 1.0, 0, 0);

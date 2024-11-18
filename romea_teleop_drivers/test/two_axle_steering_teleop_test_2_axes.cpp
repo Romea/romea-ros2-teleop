@@ -27,11 +27,11 @@
 // local
 #include "../test/test_helper.h"
 #include "testable_teleop.hpp"
-#include "romea_teleop_drivers/one_axle_steering_teleop.hpp"
+#include "romea_teleop_drivers/two_axle_steering_teleop.hpp"
 
-using TestableOneAxleSteeringTeleop = TestableTeleop<romea::ros2::OneAxleSteeringTeleop>;
-using OneAxleSteeringCommandListener =
-  romea::ros2::DataListenerBase<romea::core::OneAxleSteeringCommand>;
+using TestableTwoAxleSteeringTeleop = TestableTeleop<romea::ros2::TwoAxleSteeringTeleop>;
+using TwoAxleSteeringCommandListener =
+  romea::ros2::DataListenerBase<romea::core::TwoAxleSteeringCommand>;
 
 class MessageJoystickPublisher
 {
@@ -66,10 +66,10 @@ private:
 };
 
 
-class TestOneAxleSteeringTeleop : public ::testing::Test
+class TestTwoAxleSteeringTeleop2Axes : public ::testing::Test
 {
 public:
-  TestOneAxleSteeringTeleop()
+  TestTwoAxleSteeringTeleop2Axes()
   : teleop(),
     joy_pub(),
     cmd_sub()
@@ -89,7 +89,7 @@ public:
   template<typename MgsType>
   void make_listener(const std::string & topic_name)
   {
-    cmd_sub = romea::ros2::make_data_listener<romea::core::OneAxleSteeringCommand, MgsType>(
+    cmd_sub = romea::ros2::make_data_listener<romea::core::TwoAxleSteeringCommand, MgsType>(
       teleop->get_node(), topic_name, romea::ros2::best_effort(1));
   }
 
@@ -100,20 +100,21 @@ public:
     no.arguments(
       {"--ros-args",
         "--params-file",
-        std::string(TEST_DIR) + "/one_axle_steering_teleop.yaml"});
+        std::string(TEST_DIR) + "/two_axle_steering_teleop_2_axes.yaml"});
 
-    teleop = std::make_unique<TestableOneAxleSteeringTeleop>(no);
+    teleop = std::make_unique<TestableTwoAxleSteeringTeleop>(no);
 
     joy_pub = std::make_unique<MessageJoystickPublisher>(
       teleop->get_node(), teleop->get_mapping());
 
+
     std::string message_type = romea::ros2::get_command_output_message_type(teleop->get_node());
 
-    if (message_type == "geometry_msgs/Twist") {
-      make_listener<geometry_msgs::msg::Twist>("/teleop_node/cmd_vel");
-    } else if (message_type == "romea_mobile_base_msgs/OneAxleSteeringCommand") {
-      make_listener<romea_mobile_base_msgs::msg::OneAxleSteeringCommand>(
-        "/teleop_node/cmd_one_axle_steering");
+    if (message_type == "four_wheel_steering_msgs/FourWheelSteering") {
+      return make_listener<four_wheel_steering_msgs::msg::FourWheelSteering>("/teleop_node/cmd_4ws");
+    } else if (message_type == "romea_mobile_base_msgs/TwoAxleSteeringCommand") {
+      return make_listener<romea_mobile_base_msgs::msg::TwoAxleSteeringCommand>(
+        "/teleop_node/cmd_two_axle_steering");
     }
   }
 
@@ -135,36 +136,39 @@ public:
   }
 
 
-  std::unique_ptr<TestableOneAxleSteeringTeleop> teleop;
+  std::unique_ptr<TestableTwoAxleSteeringTeleop> teleop;
   std::unique_ptr<MessageJoystickPublisher> joy_pub;
-  std::shared_ptr<OneAxleSteeringCommandListener> cmd_sub;
+  std::shared_ptr<TwoAxleSteeringCommandListener> cmd_sub;
 };
 
-TEST_F(TestOneAxleSteeringTeleop, testSlowMode)
+TEST_F(TestTwoAxleSteeringTeleop2Axes, testSlowMode)
 {
   init();
-  sendJoyMsgAndWait(1.0, 1.0, 1, 0);
+  sendJoyMsgAndWait(1.0, -1.0, 1, 0);
 
   EXPECT_DOUBLE_EQ(cmd_sub->get_data().longitudinalSpeed, 1.0);
-  EXPECT_DOUBLE_EQ(cmd_sub->get_data().steeringAngle, 3.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().frontSteeringAngle, -3.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().rearSteeringAngle, 4.0);
 }
 
-TEST_F(TestOneAxleSteeringTeleop, testTurboMode)
+TEST_F(TestTwoAxleSteeringTeleop2Axes, testTurboMode)
 {
   init();
-  sendJoyMsgAndWait(-1.0, -1.0, 0, 1);
+  sendJoyMsgAndWait(-1.0, 1.0, 0, 1);
 
   EXPECT_DOUBLE_EQ(cmd_sub->get_data().longitudinalSpeed, -2.0);
-  EXPECT_DOUBLE_EQ(cmd_sub->get_data().steeringAngle, -3.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().frontSteeringAngle, 3.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().rearSteeringAngle, -4.0);
 }
 
-TEST_F(TestOneAxleSteeringTeleop, testNoCmd)
+TEST_F(TestTwoAxleSteeringTeleop2Axes, testNoCmd)
 {
   init();
   sendJoyMsgAndWait(1.0, 1.0, 0, 0);
 
   EXPECT_DOUBLE_EQ(cmd_sub->get_data().longitudinalSpeed, 0.0);
-  EXPECT_DOUBLE_EQ(cmd_sub->get_data().steeringAngle, 0.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().frontSteeringAngle, 0.0);
+  EXPECT_DOUBLE_EQ(cmd_sub->get_data().rearSteeringAngle, 0.0);
 }
 
 int main(int argc, char ** argv)

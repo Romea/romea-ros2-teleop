@@ -93,21 +93,39 @@ std::map<std::string, int> OmniSteeringTeleop::get_joystick_buttons_mapping_()
   };
 }
 
+//-----------------------------------------------------------------------------
+double OmniSteeringTeleop::compute_linear_speed_(const double & maximal_linear_speed) const
+{
+  return joy_->getAxeValue("linear_speed") * maximal_linear_speed;
+}
+
+//-----------------------------------------------------------------------------
+double OmniSteeringTeleop::compute_lateral_speed_(const double & maximal_lateral_speed) const
+{
+  return joy_->getAxeValue("lateral_speed") * maximal_lateral_speed;
+}
+
+//-----------------------------------------------------------------------------
+double OmniSteeringTeleop::compute_angular_speed_(const double & maximal_angular_speed) const
+{
+  return joy_->getAxeValue("angular_speed") * maximal_angular_speed;
+}
+
 
 //-----------------------------------------------------------------------------
 void OmniSteeringTeleop::joystick_callback_(const Joystick & joy)
 {
   core::OmniSteeringCommand cmd_msg;
   if (joy.getButtonValue("turbo_mode")) {
-    cmd_msg.longitudinalSpeed = joy.getAxeValue("linear_speed") * maximal_linear_speeds_.turbo_mode;
-    cmd_msg.lateralSpeed = joy.getAxeValue("lateral_speed") * maximal_lateral_speeds_.turbo_mode;
-    cmd_msg.angularSpeed = joy.getAxeValue("angular_speed") * maximal_angular_speeds_.turbo_mode;
+    cmd_msg.longitudinalSpeed = compute_linear_speed_(maximal_linear_speeds_.turbo_mode);
+    cmd_msg.lateralSpeed = compute_lateral_speed_(maximal_lateral_speeds_.turbo_mode);
+    cmd_msg.angularSpeed = compute_angular_speed_(maximal_angular_speeds_.turbo_mode);
     cmd_pub_->publish(cmd_msg);
     sent_disable_msg_ = false;
   } else if (joy.getButtonValue("slow_mode")) {
-    cmd_msg.longitudinalSpeed = joy.getAxeValue("linear_speed") * maximal_linear_speeds_.slow_mode;
-    cmd_msg.lateralSpeed = joy.getAxeValue("lateral_speed") * maximal_lateral_speeds_.slow_mode;
-    cmd_msg.angularSpeed = joy.getAxeValue("angular_speed") * maximal_angular_speeds_.slow_mode;
+    cmd_msg.longitudinalSpeed = compute_linear_speed_(maximal_linear_speeds_.slow_mode);
+    cmd_msg.lateralSpeed = compute_lateral_speed_(maximal_lateral_speeds_.slow_mode);
+    cmd_msg.angularSpeed = compute_angular_speed_(maximal_angular_speeds_.slow_mode);
     cmd_pub_->publish(cmd_msg);
     sent_disable_msg_ = false;
   } else {

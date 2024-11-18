@@ -50,6 +50,10 @@ private:
 
   void get_command_ranges_() override;
 
+  double compute_linear_speed_(const double & maximal_linear_speed) const;
+
+  double compute_steering_angle_() const;
+
   void joystick_callback_(const Joystick & joy)override;
 
 private:
