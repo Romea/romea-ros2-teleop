@@ -111,7 +111,8 @@ public:
     std::string message_type = romea::ros2::get_command_output_message_type(teleop->get_node());
 
     if (message_type == "four_wheel_steering_msgs/FourWheelSteering") {
-      return make_listener<four_wheel_steering_msgs::msg::FourWheelSteering>("/teleop_node/cmd_4ws");
+      return make_listener<four_wheel_steering_msgs::msg::FourWheelSteering>(
+        "/teleop_node/cmd_4ws");
     } else if (message_type == "romea_mobile_base_msgs/TwoAxleSteeringCommand") {
       return make_listener<romea_mobile_base_msgs::msg::TwoAxleSteeringCommand>(
         "/teleop_node/cmd_two_axle_steering");

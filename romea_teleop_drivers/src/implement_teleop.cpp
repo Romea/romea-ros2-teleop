@@ -13,6 +13,8 @@
 // limitations under the License.
 
 // std
+#include <map>
+#include <algorithm>
 #include <memory>
 #include <utility>
 #include <string>

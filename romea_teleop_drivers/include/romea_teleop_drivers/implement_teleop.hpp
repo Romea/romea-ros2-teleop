@@ -31,6 +31,10 @@
 #include "romea_teleop_drivers/joystick_parameters.hpp"
 #include "romea_teleop_drivers/visibility_control.h"
 
+#ifndef ROMEA_TELEOP_DRIVERS__IMPLEMENT_TELEOP_HPP_
+#define ROMEA_TELEOP_DRIVERS__IMPLEMENT_TELEOP_HPP_
+
+
 namespace romea
 {
 namespace ros2
@@ -40,7 +44,7 @@ class ImplementTeleop
 {
 public:
   ROMEA_TELEOP_DRIVERS_PUBLIC
-  explicit ImplementTeleop(const rclcpp::NodeOptions& options);
+  explicit ImplementTeleop(const rclcpp::NodeOptions & options);
 
   ROMEA_TELEOP_DRIVERS_PUBLIC
   virtual ~ImplementTeleop();
@@ -53,7 +57,7 @@ protected:
 
   void init_joystick_();
 
-  void joystick_callback_(const Joystick& joy);
+  void joystick_callback_(const Joystick & joy);
 
   std::map<std::string, int> get_joystick_axes_mapping_();
 
@@ -63,9 +67,11 @@ protected:
   rclcpp::Node::SharedPtr node_;
   std::unique_ptr<Joystick> joy_;
   rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr cmd_pub_;
-  double increment_position_{ 0.05 };
+  double increment_position_{0.05};
   std_msgs::msg::Float64MultiArray cmd_msg_;
 };
 
 }  // namespace ros2
 }  // namespace romea
+
+#endif  // ROMEA_TELEOP_DRIVERS__IMPLEMENT_TELEOP_HPP_

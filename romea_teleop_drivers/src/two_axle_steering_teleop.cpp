@@ -105,7 +105,6 @@ void TwoAxleSteeringTeleop::init_axes_control_modes_()
     axes_mapping["forwad_speed"] != axes_mapping["backward_speed"];
   two_axes_steering_angle_control_ =
     axes_mapping["front_steering_angle"] != axes_mapping["rear_steering_angle"];
-
 }
 
 //-----------------------------------------------------------------------------
