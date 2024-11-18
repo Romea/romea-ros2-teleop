@@ -30,7 +30,8 @@ from ament_index_python.packages import get_package_share_directory
 from romea_common_bringup import device_prefix
 from romea_joystick_bringup import JoystickMetaDescription
 from romea_mobile_base_bringup import MobileBaseMetaDescription
-from romea_teleop_description import get_default_joystick_implement_remapping, joystick_remapping
+
+import os
 
 
 def get_mode(context):
@@ -103,19 +104,6 @@ def launch_setup(context, *args, **kwargs):
         launch_arguments=launch_arguments.items(),
     )
 
-    # implement_teleop_configuration = {}
-    # implement_teleop_configuration["joystick_mapping"] = joystick_remapping(
-    #     joystick_type, joystick_driver, get_default_joystick_implement_remapping(joystick_type)
-    # )
-    # implement_teleop = Node(
-    #     package="romea_teleop_drivers",
-    #     executable="implement_teleop_node",
-    #     name="implement_teleop",
-    #     parameters=[implement_teleop_configuration],
-    #     output="screen",
-    #     remappings=[("joystick/joy", joystick_topic)],
-    # )
-
     actions = [
         SetParameter(name="use_sim_time", value=(mode != "live")),
         PushRosNamespace(robot_namespace),
@@ -123,15 +111,24 @@ def launch_setup(context, *args, **kwargs):
         teleop
     ]
 
-    # actions_implement = [
-    #     SetParameter(name="use_sim_time", value=(mode != "live")),
-    #     PushRosNamespace(robot_namespace),
-    #     PushRosNamespace("implement"),
-    #     implement_teleop
-    # ]
+    actions_implement = []
+    if os.path.isfile(get_package_share_directory(robot_type+"_bringup")
+                      + "/launch/"+robot_type+"_implement_teleop.launch.py"):
+        implement_teleop = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(
+                get_package_share_directory(robot_type+"_bringup")
+                + "/launch/"+robot_type+"_implement_teleop.launch.py"
+            ),
+            launch_arguments=launch_arguments.items(),
+        )
+        actions_implement = [
+            SetParameter(name="use_sim_time", value=(mode != "live")),
+            PushRosNamespace(robot_namespace),
+            PushRosNamespace("implement"),
+            implement_teleop
+        ]
 
-    # return [GroupAction(actions), GroupAction(actions_implement)]
-    return [GroupAction(actions)]
+    return [GroupAction(actions), GroupAction(actions_implement)]
 
 
 def generate_launch_description():
